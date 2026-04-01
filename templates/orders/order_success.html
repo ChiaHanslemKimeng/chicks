@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block title %}Order Successful - PoultryElite{% endblock %}
+
+{% block content %}
+<section class="py-20 bg-slate-50 min-h-[70vh] flex items-center">
+    <div class="px-6 md:px-12 max-w-2xl mx-auto text-center">
+        <div
+            class="w-24 h-24 bg-accent/10 rounded-full flex items-center justify-center text-accent text-5xl mx-auto mb-8 shadow-lg shadow-accent/10">
+            ✓
+        </div>
+
+        <h1 class="text-4xl md:text-5xl font-bold text-slate-800 mb-6">Order Received <span
+                class="text-gold">Successfully!</span></h1>
+
+        <div class="bg-white p-8 md:p-12 rounded-3xl border border-slate-100 mb-12 shadow-xl">
+            <p class="text-xl text-slate-600 leading-relaxed">
+                Your order for <span class="text-slate-800 font-bold">{{ order.fowl.name }}</span> has been placed.
+            </p>
+            <div class="h-1 w-24 bg-gold mx-auto my-6 rounded-full"></div>
+            <p class="text-slate-500">
+                The admin will contact you shortly via email with the payment account details based on your selected
+                payment method:
+                <span class="text-gold font-bold">{{ order.get_payment_method_display }}</span>.
+            </p>
+            <p class="mt-4 text-sm text-slate-400 italic">Order ID: #{{ order.id }}</p>
+        </div>
+
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+            <a href="{% url 'fowl_list' %}"
+                class="bg-accent text-white font-bold py-4 px-10 rounded-xl transition-all hover:scale-105 shadow-lg shadow-accent/20">
+                Browse More Birds
+            </a>
+            <a href="{% url 'home' %}"
+                class="bg-white text-slate-800 font-bold py-4 px-10 rounded-xl transition-all hover:bg-slate-50 border border-slate-100 shadow-sm">
+                Return Home
+            </a>
+        </div>
+    </div>
+</section>
+{% endblock %}

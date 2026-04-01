@@ -1,0 +1,201 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}About Us - PoultryElite{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="py-24 px-6 md:px-12 bg-white relative overflow-hidden">
+    <!-- Decorative elements -->
+    <div class="absolute top-0 right-0 w-96 h-96 bg-accent/5 rounded-full -translate-y-1/2 translate-x-1/2 blur-3xl">
+    </div>
+    <div class="absolute bottom-0 left-0 w-64 h-64 bg-gold/5 rounded-full translate-y-1/2 -translate-x-1/2 blur-3xl">
+    </div>
+
+    <div class="max-w-6xl mx-auto relative z-10">
+        <div class="text-center mb-16" data-aos="fade-up">
+            <span
+                class="text-accent font-bold uppercase tracking-[0.3em] text-sm mb-4 block underline decoration-gold/30 underline-offset-8">Our
+                Journey</span>
+            <h1 class="text-5xl md:text-7xl font-bold text-slate-800 mb-8 leading-tight">Empowering Farmers <br> Since
+                <span class="text-gold">2015</span></h1>
+            <p class="text-slate-500 max-w-2xl mx-auto text-lg font-light leading-relaxed">
+                Founded with a vision to revolutionize poultry farming, PoultryElite has become a symbol of excellence
+                and trust for thousands of farmers across the country.
+            </p>
+        </div>
+
+        <div class="aspect-[21/9] rounded-[3rem] overflow-hidden mb-24 shadow-2xl border border-slate-100 group"
+            data-aos="zoom-in">
+            <img src="{% static 'img/about-farm.jpg' %}" alt="Our Farm"
+                class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105">
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center mb-32">
+            <div data-aos="fade-right">
+                <h2 class="text-4xl font-bold text-slate-800 mb-8">A Legacy of <span
+                        class="text-accent">Excellence</span></h2>
+                <div class="space-y-6 text-slate-600 text-lg font-light leading-relaxed">
+                    <p>
+                        What started as a small family project with just 500 birds has transformed into a
+                        state-of-the-art facility producing millions of healthy, high-performing poultry annually.
+                    </p>
+                    <p>
+                        We understood early on that the success of a farmer depends entirely on the quality of their
+                        stock. That's why we've invested heavily in world-class genetics, biosecurity, and nutrition.
+                    </p>
+                </div>
+            </div>
+            <div class="grid grid-cols-2 gap-6" data-aos="fade-left">
+                <div class="bg-slate-50 p-8 rounded-3xl border border-slate-100 text-center">
+                    <p class="text-4xl font-bold text-gold mb-2">10+</p>
+                    <p class="text-slate-500 font-medium uppercase tracking-wider text-xs">Years Experience</p>
+                </div>
+                <div class="bg-white p-8 rounded-3xl border border-slate-100 text-center shadow-lg shadow-slate-200/50">
+                    <p class="text-4xl font-bold text-accent mb-2">5M+</p>
+                    <p class="text-slate-500 font-medium uppercase tracking-wider text-xs">Birds Delivered</p>
+                </div>
+                <div class="bg-white p-8 rounded-3xl border border-slate-100 text-center shadow-lg shadow-slate-200/50">
+                    <p class="text-4xl font-bold text-accent mb-2">15k+</p>
+                    <p class="text-slate-500 font-medium uppercase tracking-wider text-xs">Happy Farmers</p>
+                </div>
+                <div class="bg-slate-50 p-8 rounded-3xl border border-slate-100 text-center">
+                    <p class="text-4xl font-bold text-gold mb-2">99%</p>
+                    <p class="text-slate-500 font-medium uppercase tracking-wider text-xs">Survival Rate</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Values Section -->
+<section class="py-32 px-6 md:px-12 bg-secondary text-white relative overflow-hidden">
+    <div class="absolute top-0 left-0 w-full h-full opacity-5 pointer-events-none"
+        style="background-image: url('https://www.transparenttextures.com/patterns/asfalt-dark.png');"></div>
+
+    <div class="max-w-6xl mx-auto relative z-10 text-center mb-20" data-aos="fade-up">
+        <h2 class="text-4xl md:text-5xl font-bold mb-6 italic font-heading">Our Core <span
+                class="text-gold">Philosophy</span></h2>
+        <p class="text-slate-400 max-w-xl mx-auto font-light">The pillars that sustain our commitment to every farmer we
+            serve.</p>
+    </div>
+
+    <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div class="p-10 rounded-3xl bg-white/5 border border-white/10 hover:bg-gold/10 transition-all group"
+            data-aos="fade-up" data-aos-delay="100">
+            <div class="text-4xl mb-6 grayscale group-hover:grayscale-0 transition-all">🔬</div>
+            <h3 class="text-2xl font-bold mb-4 text-gold italic font-heading">Genetic Purity</h3>
+            <p class="text-slate-400 font-light leading-relaxed">
+                We only source and breed from the world's most reputable genetic lines, ensuring optimal growth and
+                health.
+            </p>
+        </div>
+        <div class="p-10 rounded-3xl bg-white/10 border border-white/20 hover:bg-accent/10 transition-all group shadow-2xl"
+            data-aos="fade-up" data-aos-delay="200">
+            <div class="text-4xl mb-6 grayscale group-hover:grayscale-0 transition-all">🛡️</div>
+            <h3 class="text-2xl font-bold mb-4 text-accent italic font-heading">Biosecurity First</h3>
+            <p class="text-slate-300 font-light leading-relaxed">
+                Our facilities operate under strict medical-grade biosecurity protocols to ensure disease-free stock.
+            </p>
+        </div>
+        <div class="p-10 rounded-3xl bg-white/5 border border-white/10 hover:bg-gold/10 transition-all group"
+            data-aos="fade-up" data-aos-delay="300">
+            <div class="text-4xl mb-6 grayscale group-hover:grayscale-0 transition-all">🤝</div>
+            <h3 class="text-2xl font-bold mb-4 text-gold italic font-heading">Lifelong Support</h3>
+            <p class="text-slate-400 font-light leading-relaxed">
+                We don't just sell birds; we provide expert advisory to ensure your farm thrives from day one.
+            </p>
+        </div>
+    </div>
+</section>
+
+<!-- Meet The Team -->
+<section class="py-32 px-6 md:px-12 bg-white overflow-hidden">
+    <div class="max-w-6xl mx-auto">
+        <div class="text-center mb-24" data-aos="fade-up">
+            <h2 class="text-4xl md:text-5xl font-bold text-slate-800 mb-6 font-heading">Meet Our <span
+                    class="text-accent underline decoration-gold/20">Experts</span></h2>
+            <p class="text-slate-500 max-w-xl mx-auto font-light">The passionate minds behind every healthy bird we
+                produce.</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
+            <!-- CEO -->
+            <div class="group" data-aos="fade-up" data-aos-delay="100">
+                <div class="aspect-[4/5] rounded-[2rem] overflow-hidden mb-8 relative">
+                    <img src="{% static 'img/team_ceo.png' %}" alt="CEO"
+                        class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                    <div
+                        class="absolute bottom-6 left-6 right-6 p-6 bg-white/80 backdrop-blur rounded-2xl border border-white/20 translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500">
+                        <p class="text-slate-800 font-bold mb-1 italic font-heading">Isaac Elite</p>
+                        <p class="text-gold text-xs font-bold uppercase tracking-widest">Founder & CEO</p>
+                    </div>
+                </div>
+                <h3 class="text-2xl font-bold text-slate-800 mb-2 italic font-heading">Isaac Elite</h3>
+                <p class="text-slate-500 font-light leading-relaxed italic">Over 20 years of experience in large-scale
+                    poultry systems and genetic selection.</p>
+            </div>
+
+            <!-- Vet -->
+            <div class="group" data-aos="fade-up" data-aos-delay="200">
+                <div
+                    class="aspect-[4/5] rounded-[2rem] overflow-hidden mb-8 relative bg-slate-50 border border-slate-100 flex items-center justify-center p-12">
+                    <div class="text-center">
+                        <div class="text-6xl mb-4">🩺</div>
+                        <p class="text-slate-300 font-bold uppercase tracking-[0.2em] text-xs">Awaiting Portrait</p>
+                    </div>
+                    <div
+                        class="absolute bottom-6 left-6 right-6 p-6 bg-white/80 backdrop-blur rounded-2xl border border-white/20 translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500">
+                        <p class="text-slate-800 font-bold mb-1 italic font-heading">Dr. Sarah Johnson</p>
+                        <p class="text-accent text-xs font-bold uppercase tracking-widest">Chief Veterinarian</p>
+                    </div>
+                </div>
+                <h3 class="text-2xl font-bold text-slate-800 mb-2 italic font-heading">Dr. Sarah Johnson</h3>
+                <p class="text-slate-500 font-light leading-relaxed italic">Leading our health protocols and ensuring
+                    100% vaccination compliance for all stock.</p>
+            </div>
+
+            <!-- Manager -->
+            <div class="group" data-aos="fade-up" data-aos-delay="300">
+                <div
+                    class="aspect-[4/5] rounded-[2rem] overflow-hidden mb-8 relative bg-slate-50 border border-slate-100 flex items-center justify-center p-12">
+                    <div class="text-center">
+                        <div class="text-6xl mb-4">🚜</div>
+                        <p class="text-slate-300 font-bold uppercase tracking-[0.2em] text-xs">Awaiting Portrait</p>
+                    </div>
+                    <div
+                        class="absolute bottom-6 left-6 right-6 p-6 bg-white/80 backdrop-blur rounded-2xl border border-white/20 translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500">
+                        <p class="text-slate-800 font-bold mb-1 italic font-heading">Michael Adebayo</p>
+                        <p class="text-gold text-xs font-bold uppercase tracking-widest">Farm Manager</p>
+                    </div>
+                </div>
+                <h3 class="text-2xl font-bold text-slate-800 mb-2 italic font-heading">Michael Adebayo</h3>
+                <p class="text-slate-500 font-light leading-relaxed italic">Managing daily operations and logistics with
+                    a focus on bird welfare and delivery speed.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Call to Action -->
+<section class="py-24 px-6 md:px-12 bg-slate-50">
+    <div class="max-w-5xl mx-auto bg-gold rounded-[3rem] p-12 md:p-20 text-center relative overflow-hidden shadow-2xl"
+        data-aos="zoom-in">
+        <div class="absolute top-0 right-0 w-64 h-64 bg-white/20 rounded-full -translate-y-1/2 translate-x-1/2"></div>
+        <div class="relative z-10">
+            <h2 class="text-4xl md:text-5xl font-bold text-white mb-8 font-heading italic">Ready to Start Your <br>
+                Successful Farm?</h2>
+            <div class="flex flex-col sm:flex-row gap-6 justify-center">
+                <a href="{% url 'fowl_list' %}"
+                    class="bg-white text-gold font-bold py-5 px-12 rounded-full text-lg transition-all hover:scale-105 shadow-xl">
+                    View Available Birds
+                </a>
+                <a href="{% url 'contact' %}"
+                    class="bg-transparent border-2 border-white/50 text-white font-bold py-5 px-12 rounded-full text-lg transition-all hover:bg-white/10">
+                    Consult Our Experts
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

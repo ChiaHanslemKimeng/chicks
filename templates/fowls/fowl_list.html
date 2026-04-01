@@ -1,0 +1,153 @@
+{% extends 'base.html' %}
+
+{% block title %}All Birds - PoultryElite{% endblock %}
+
+{% block content %}
+<section class="py-12 bg-primary">
+    <div class="px-6 md:px-12">
+        <div class="flex flex-col lg:flex-row gap-12">
+            <!-- Sidebar / Filters -->
+            <aside class="w-full lg:w-1/4" data-aos="fade-right">
+                <div class="bg-white p-8 rounded-3xl sticky top-24 shadow-sm border border-slate-200">
+                    <h3 class="text-xl font-bold text-slate-800 mb-6">Filter Results</h3>
+
+                    <form method="GET" action="{% url 'fowl_list' %}" class="space-y-8">
+                        <!-- Search -->
+                        <div>
+                            <label class="block text-sm font-medium text-slate-500 mb-2">Search</label>
+                            <input type="text" name="search" value="{{ request.GET.search }}"
+                                placeholder="Search breeds..."
+                                class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-slate-800 focus:border-gold outline-none text-sm transition-colors">
+                        </div>
+
+                        <!-- Breed -->
+                        <div>
+                            <label class="block text-sm font-medium text-slate-500 mb-2">Breed Category</label>
+                            <select name="breed"
+                                class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-slate-800 focus:border-gold outline-none text-sm transition-colors">
+                                <option value="">All Breeds</option>
+                                {% for breed in breeds %}
+                                <option value="{{ breed.slug }}" {% if current_breed == breed.slug %}selected{% endif %}>
+                                    {{ breed.name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <!-- Price Range -->
+                        <div>
+                            <label class="block text-sm font-medium text-slate-500 mb-2">Price Range</label>
+                            <div class="grid grid-cols-2 gap-4">
+                                <input type="number" name="min_price" value="{{ request.GET.min_price }}"
+                                    placeholder="Min"
+                                    class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2 text-slate-800 focus:border-gold outline-none text-sm">
+                                <input type="number" name="max_price" value="{{ request.GET.max_price }}"
+                                    placeholder="Max"
+                                    class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2 text-slate-800 focus:border-gold outline-none text-sm">
+                            </div>
+                        </div>
+
+                        <div class="flex gap-4">
+                            <button type="submit"
+                                class="flex-grow bg-accent hover:bg-accent/90 text-white font-bold py-3 rounded-xl transition-all">
+                                Apply Filters
+                            </button>
+                            <a href="{% url 'fowl_list' %}"
+                                class="w-12 h-12 flex items-center justify-center bg-slate-100 hover:bg-slate-200 rounded-xl transition-all text-xl"
+                                title="Clear Filters">
+                                ↺
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </aside>
+
+            <!-- Listing Grid -->
+            <div class="flex-grow">
+                <div class="flex justify-between items-center mb-8">
+                    <h2 class="text-3xl font-bold text-slate-800">Available <span class="text-gold">Birds</span></h2>
+                    <p class="text-slate-500 text-sm">Showing {{ page_obj.start_index }}-{{ page_obj.end_index }} of {{ page_obj.paginator.count }} results</p>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-8">
+                    {% for fowl in page_obj %}
+                    <div data-aos="fade-up" data-aos-delay="{{ forloop.counter|add:100 }}"
+                        class="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-md hover:border-accent/30 border border-slate-200 transition-all duration-500 group">
+                        <div class="h-64 overflow-hidden relative">
+                            {% if fowl.thumbnail %}
+                            <img src="{{ fowl.thumbnail.url }}" alt="{{ fowl.name }}"
+                                class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+                            {% else %}
+                            <div class="w-full h-full bg-slate-100 flex items-center justify-center text-slate-400">No
+                                Image</div>
+                            {% endif %}
+                            <div
+                                class="absolute top-4 right-4 bg-white/90 backdrop-blur text-gold font-bold px-3 py-1 rounded-lg text-sm shadow-sm">
+                                ${{ fowl.price }}
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <span class="text-accent text-xs font-bold uppercase tracking-wider">{{ fowl.breed.name }}</span>
+                            <h3 class="text-xl font-bold text-slate-800 mt-1 mb-2">{{ fowl.name }}</h3>
+                            <p class="text-slate-500 text-sm line-clamp-2 mb-4">{{ fowl.description }}</p>
+
+                            <div class="grid grid-cols-2 gap-2 mb-6">
+                                <div class="text-xs bg-slate-50 p-2 rounded-lg text-slate-500">
+                                    <span
+                                        class="block font-bold text-slate-400 mb-1 uppercase tracking-tighter">Age</span>
+                                    {{ fowl.age }}
+                                </div>
+                                <div class="text-xs bg-slate-50 p-2 rounded-lg text-slate-500">
+                                    <span
+                                        class="block font-bold text-slate-400 mb-1 uppercase tracking-tighter">Weight</span>
+                                    {{ fowl.weight }}
+                                </div>
+                            </div>
+
+                            <div class="flex items-center justify-between">
+                                <a href="{% url 'fowl_detail' fowl.pk %}"
+                                    class="flex-grow bg-slate-50 hover:bg-gold hover:text-white text-slate-800 text-center font-bold py-3 rounded-xl transition-all duration-300">
+                                    View Details
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    {% empty %}
+                    <div
+                        class="col-span-full text-center py-24 bg-white rounded-3xl border border-dashed border-slate-200 shadow-sm">
+                        <p class="text-slate-400 italic text-lg">No birds match your current filters. Try resetting.</p>
+                        <a href="{% url 'fowl_list' %}"
+                            class="inline-block mt-4 text-gold border-b border-gold pb-1 hover:text-accent hover:border-accent transition-colors">Clear
+                            all filters</a>
+                    </div>
+                    {% endfor %}
+                </div>
+
+                <!-- Pagination -->
+                {% if page_obj.has_other_pages %}
+                <div class="mt-16 flex justify-center gap-2">
+                    {% if page_obj.has_previous %}
+                    <a href="?page={{ page_obj.previous_page_number }}{% if request.GET.breed %}&breed={{ request.GET.breed }}{% endif %}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}"
+                        class="w-12 h-12 flex items-center justify-center glass rounded-xl hover:bg-gold hover:text-primary transition-all font-bold">←</a>
+                    {% endif %}
+
+                    {% for i in page_obj.paginator.page_range %}
+                    {% if page_obj.number == i %}
+                    <span
+                        class="w-12 h-12 flex items-center justify-center bg-gold text-primary rounded-xl font-bold">{{ i }}</span>
+                    {% else %}
+                    <a href="?page={{ i }}{% if request.GET.breed %}&breed={{ request.GET.breed }}{% endif %}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}"
+                        class="w-12 h-12 flex items-center justify-center glass rounded-xl hover:bg-gold hover:text-primary transition-all font-bold">{{ i }}</a>
+                    {% endif %}
+                    {% endfor %}
+
+                    {% if page_obj.has_next %}
+                    <a href="?page={{ page_obj.next_page_number }}{% if request.GET.breed %}&breed={{ request.GET.breed }}{% endif %}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}"
+                        class="w-12 h-12 flex items-center justify-center glass rounded-xl hover:bg-gold hover:text-primary transition-all font-bold">→</a>
+                    {% endif %}
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
