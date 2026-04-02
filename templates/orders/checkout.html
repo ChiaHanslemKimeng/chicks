@@ -13,7 +13,7 @@
                 <div class="bg-white p-8 rounded-3xl border border-slate-100 shadow-xl">
                     <form method="POST" class="space-y-6">
                         {% csrf_token %}
-                        <input type="hidden" name="fowl_id" value="{{ selected_fowl.id }}">
+                        <input type="hidden" name="product_id" value="{{ selected_product.id }}">
 
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div>
@@ -73,23 +73,25 @@
                 <div class="bg-white p-8 rounded-3xl border border-slate-100 sticky top-24 shadow-xl">
                     <h3 class="text-xl font-bold text-slate-800 mb-6">Order Summary</h3>
 
-                    {% if selected_fowl %}
+                    {% if selected_product %}
                     <div class="flex items-center gap-4 mb-6">
                         <div class="w-16 h-16 rounded-xl overflow-hidden bg-slate-50 shrink-0 border border-slate-100">
-                            {% if selected_fowl.thumbnail %}
-                            <img src="{{ selected_fowl.thumbnail.url }}" class="w-full h-full object-cover">
+                            {% if selected_product.thumbnail %}
+                            <img src="{{ selected_product.thumbnail.url }}" class="w-full h-full object-cover">
+                            {% else %}
+                            <div class="w-full h-full flex items-center justify-center text-2xl">📦</div>
                             {% endif %}
                         </div>
                         <div>
-                            <h4 class="font-bold text-slate-800 text-sm">{{ selected_fowl.name }}</h4>
-                            <p class="text-gold font-bold text-sm">${{ selected_fowl.price }}</p>
+                            <h4 class="font-bold text-slate-800 text-sm">{{ selected_product.name }}</h4>
+                            <p class="text-gold font-bold text-sm">${{ selected_product.price }}</p>
                         </div>
                     </div>
 
                     <div class="border-t border-slate-100 pt-6 space-y-4">
                         <div class="flex justify-between text-slate-500 text-sm">
-                            <span>Breed</span>
-                            <span class="text-slate-800 font-medium">{{ selected_fowl.breed.name }}</span>
+                            <span>Breed / Type</span>
+                            <span class="text-slate-800 font-medium">{{ selected_product.breed.name }}</span>
                         </div>
                         <div class="flex justify-between text-slate-500 text-sm">
                             <span>Availability</span>
@@ -97,7 +99,7 @@
                         </div>
                     </div>
                     {% else %}
-                    <p class="text-slate-400 italic text-sm text-center">No bird selected. Please go back to the
+                    <p class="text-slate-400 italic text-sm text-center">No item selected. Please go back to the
                         listing.
                     </p>
                     {% endif %}

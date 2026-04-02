@@ -65,27 +65,82 @@
 <body class="min-h-screen flex flex-col overflow-x-hidden">
     <!-- Navbar -->
     <nav class="sticky top-0 z-50 glass border-b border-black/5 py-4 px-6 md:px-12 flex items-center justify-between">
-        <a href="{% url 'home' %}" class="text-2xl font-bold text-gold flex items-center gap-2">
-            <span class="text-accent">Poultry</span>Elite
+        <a href="{% url 'home' %}" class="flex items-center flex-shrink-0">
+            <img src="{% static 'img/logo.png' %}" alt="Universal Poultry Farm" class="h-12 w-auto object-contain"
+                style="max-width:220px;">
         </a>
 
         <!-- Desktop Links -->
-        <div class="hidden md:flex items-center gap-8 text-sm font-medium text-secondary">
+        <div class="hidden md:flex items-center gap-6 text-sm font-medium text-secondary">
             <a href="{% url 'home' %}"
-                class="{% if request.resolver_match.url_name == 'home' %}text-gold font-bold{% else %}hover:text-gold{% endif %} transition-colors">Home</a>
-            <a href="{% url 'fowl_list' %}"
-                class="{% if request.resolver_match.url_name == 'fowl_list' or request.resolver_match.url_name == 'fowl_detail' %}text-gold font-bold{% else %}hover:text-gold{% endif %} transition-colors">Birds</a>
+                class="{% if request.path == '/' %}text-gold font-bold border-b-2 border-gold pb-0.5{% else %}hover:text-gold{% endif %} transition-colors">Home</a>
+            <div class="relative group">
+                <button
+                    class="flex items-center gap-1 {% if '/fowls/' in request.path and 'equipment' not in request.path %}text-gold font-bold{% else %}hover:text-gold{% endif %} transition-colors py-2">
+                    Our Stock
+                    <svg class="w-4 h-4 transition-transform group-hover:rotate-180" fill="none" stroke="currentColor"
+                        viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                    </svg>
+                </button>
+                <div
+                    class="absolute left-0 w-64 bg-white shadow-2xl rounded-2xl border border-slate-100 py-4 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 translate-y-2 group-hover:translate-y-0 z-[100]">
+                    <a href="{% url 'category_list' 'birds' %}"
+                        class="block px-6 py-3 hover:bg-slate-50 hover:text-gold transition-colors flex items-center gap-3 {% if request.path == '/fowls/birds/' %}text-gold font-bold{% endif %}">
+                        <span class="text-xl">🐔</span>
+                        <p class="font-bold text-sm">Birds</p>
+                    </a>
+                    <a href="{% url 'category_list' 'eggs' %}"
+                        class="block px-6 py-3 hover:bg-slate-50 hover:text-gold transition-colors flex items-center gap-3 {% if request.path == '/fowls/eggs/' %}text-gold font-bold{% endif %}">
+                        <span class="text-xl">🥚</span>
+                        <p class="font-bold text-sm">Eggs</p>
+                    </a>
+                    <a href="{% url 'category_list' 'livestock' %}?breed=camborough-piglet"
+                        class="block px-6 py-3 hover:bg-slate-50 hover:text-gold transition-colors flex items-center gap-3">
+                        <span class="text-xl">🐷</span>
+                        <p class="font-bold text-sm">Piglet / Guinea Pig</p>
+                    </a>
+                    <a href="{% url 'category_list' 'livestock' %}?breed=holstein-calf"
+                        class="block px-6 py-3 hover:bg-slate-50 hover:text-gold transition-colors flex items-center gap-3">
+                        <span class="text-xl">🐄</span>
+                        <p class="font-bold text-sm">Calves</p>
+                    </a>
+                    <a href="{% url 'category_list' 'livestock' %}?breed=boar-goat"
+                        class="block px-6 py-3 hover:bg-slate-50 hover:text-gold transition-colors flex items-center gap-3">
+                        <span class="text-xl">🐐</span>
+                        <p class="font-bold text-sm">Goats</p>
+                    </a>
+                    <a href="{% url 'category_list' 'equipment' %}?breed=chicken-coop"
+                        class="block px-6 py-3 hover:bg-slate-50 hover:text-gold transition-colors flex items-center gap-3">
+                        <span class="text-xl">🏠</span>
+                        <p class="font-bold text-sm">Chicken Coop</p>
+                    </a>
+                </div>
+            </div>
+            <a href="{% url 'category_list' 'equipment' %}"
+                class="{% if request.path == '/fowls/equipment/' %}text-gold font-bold border-b-2 border-gold pb-0.5{% else %}hover:text-gold{% endif %} transition-colors">Equipment</a>
             <a href="{% url 'about' %}"
-                class="{% if request.resolver_match.url_name == 'about' %}text-gold font-bold{% else %}hover:text-gold{% endif %} transition-colors">About</a>
+                class="{% if request.resolver_match.url_name == 'about' %}text-gold font-bold border-b-2 border-gold pb-0.5{% else %}hover:text-gold{% endif %} transition-colors">About</a>
             <a href="{% url 'faq' %}"
-                class="{% if request.resolver_match.url_name == 'faq' %}text-gold font-bold{% else %}hover:text-gold{% endif %} transition-colors">FAQs</a>
+                class="{% if request.resolver_match.url_name == 'faq' %}text-gold font-bold border-b-2 border-gold pb-0.5{% else %}hover:text-gold{% endif %} transition-colors">FAQs</a>
             <a href="{% url 'reviews' %}"
-                class="{% if request.resolver_match.url_name == 'reviews' %}text-gold font-bold{% else %}hover:text-gold{% endif %} transition-colors">Reviews</a>
+                class="{% if request.resolver_match.url_name == 'reviews' %}text-gold font-bold border-b-2 border-gold pb-0.5{% else %}hover:text-gold{% endif %} transition-colors">Reviews</a>
             <a href="{% url 'contact' %}"
-                class="{% if request.resolver_match.url_name == 'contact' %}text-gold font-bold{% else %}hover:text-gold{% endif %} transition-colors">Contact</a>
+                class="{% if request.resolver_match.url_name == 'contact' %}text-gold font-bold border-b-2 border-gold pb-0.5{% else %}hover:text-gold{% endif %} transition-colors">Contact</a>
         </div>
 
-        <div class="flex items-center gap-4">
+        <div class="flex items-center gap-3">
+            {% if user.is_staff %}
+            <a href="{% url 'admin_chat_list' %}"
+                class="hidden sm:flex items-center gap-2 bg-accent/10 hover:bg-accent/20 text-accent font-bold py-2 px-4 rounded-full transition-all text-sm border border-accent/20">
+                <span style="position:relative;display:inline-block;">
+                    <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z" />
+                    </svg>
+                </span>
+                Live Inbox
+            </a>
+            {% endif %}
             <a href="{% url 'fowl_list' %}"
                 class="hidden sm:block bg-accent hover:bg-accent/90 text-primary font-bold py-2 px-6 rounded-full transition-all hover:scale-105">
                 Order Now
@@ -104,11 +159,12 @@
 
     <!-- Mobile Menu Overlay -->
     <div id="mobile-menu"
-        class="fixed inset-0 z-[60] bg-white translate-x-full transition-transform duration-300 md:hidden">
+        class="fixed inset-0 z-[60] bg-white translate-x-full transition-transform duration-300 md:hidden overflow-y-auto">
         <div class="p-6 flex flex-col h-full">
-            <div class="flex items-center justify-between mb-12">
-                <a href="{% url 'home' %}" class="text-2xl font-bold text-gold">
-                    <span class="text-accent">Poultry</span>Elite
+            <div class="flex items-center justify-between mb-10">
+                <a href="{% url 'home' %}" class="flex items-center flex-shrink-0">
+                    <img src="{% static 'img/logo.png' %}" alt="Universal Poultry Farm"
+                        class="h-12 w-auto object-contain" style="max-width:200px;">
                 </a>
                 <button id="close-menu-btn" class="text-secondary p-2">
                     <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"
@@ -119,19 +175,55 @@
                 </button>
             </div>
 
-            <div class="flex flex-col gap-6 text-xl font-bold text-secondary">
-                <a href="{% url 'home' %}" class="hover:text-gold transition-colors">Home</a>
-                <a href="{% url 'fowl_list' %}" class="hover:text-gold transition-colors">Birds</a>
-                <a href="{% url 'about' %}" class="hover:text-gold transition-colors">About</a>
-                <a href="{% url 'faq' %}" class="hover:text-gold transition-colors">FAQs</a>
-                <a href="{% url 'reviews' %}" class="hover:text-gold transition-colors">Reviews</a>
-                <a href="{% url 'contact' %}" class="hover:text-gold transition-colors">Contact</a>
+            <div class="flex flex-col gap-1 text-base font-semibold text-secondary">
+                <a href="{% url 'home' %}"
+                    class="px-4 py-3 rounded-xl transition-colors {% if request.path == '/' %}bg-accent/10 text-accent font-bold{% else %}hover:bg-slate-50 hover:text-gold{% endif %}">Home</a>
+                <div class="mt-2 mb-1">
+                    <p class="px-4 text-xs text-slate-400 uppercase tracking-widest mb-1">Our Stock</p>
+                    <a href="{% url 'fowl_list' %}"
+                        class="flex items-center gap-3 px-4 py-2.5 rounded-xl transition-colors {% if request.resolver_match.url_name == 'fowl_list' %}bg-accent/10 text-accent font-bold{% else %}hover:bg-slate-50 hover:text-gold{% endif %}">
+                        <span>🐔</span> All Products
+                    </a>
+                    <a href="{% url 'category_list' 'birds' %}"
+                        class="flex items-center gap-3 px-4 py-2.5 rounded-xl transition-colors {% if request.path == '/fowls/birds/' %}bg-accent/10 text-accent font-bold{% else %}hover:bg-slate-50 hover:text-gold{% endif %}">
+                        <span>🐔</span> Birds
+                    </a>
+                    <a href="{% url 'category_list' 'eggs' %}"
+                        class="flex items-center gap-3 px-4 py-2.5 rounded-xl transition-colors {% if request.path == '/fowls/eggs/' %}bg-accent/10 text-accent font-bold{% else %}hover:bg-slate-50 hover:text-gold{% endif %}">
+                        <span>🥚</span> Eggs
+                    </a>
+                    <a href="{% url 'category_list' 'livestock' %}"
+                        class="flex items-center gap-3 px-4 py-2.5 rounded-xl transition-colors {% if request.path == '/fowls/livestock/' %}bg-accent/10 text-accent font-bold{% else %}hover:bg-slate-50 hover:text-gold{% endif %}">
+                        <span>🐄</span> Livestock
+                    </a>
+                    <a href="{% url 'category_list' 'equipment' %}"
+                        class="flex items-center gap-3 px-4 py-2.5 rounded-xl transition-colors {% if request.path == '/fowls/equipment/' %}bg-accent/10 text-accent font-bold{% else %}hover:bg-slate-50 hover:text-gold{% endif %}">
+                        <span>🛠️</span> Equipment
+                    </a>
+                </div>
+                <a href="{% url 'about' %}"
+                    class="px-4 py-3 rounded-xl transition-colors {% if request.resolver_match.url_name == 'about' %}bg-accent/10 text-accent font-bold{% else %}hover:bg-slate-50 hover:text-gold{% endif %}">About</a>
+                <a href="{% url 'faq' %}"
+                    class="px-4 py-3 rounded-xl transition-colors {% if request.resolver_match.url_name == 'faq' %}bg-accent/10 text-accent font-bold{% else %}hover:bg-slate-50 hover:text-gold{% endif %}">FAQs</a>
+                <a href="{% url 'reviews' %}"
+                    class="px-4 py-3 rounded-xl transition-colors {% if request.resolver_match.url_name == 'reviews' %}bg-accent/10 text-accent font-bold{% else %}hover:bg-slate-50 hover:text-gold{% endif %}">Reviews</a>
+                <a href="{% url 'contact' %}"
+                    class="px-4 py-3 rounded-xl transition-colors {% if request.resolver_match.url_name == 'contact' %}bg-accent/10 text-accent font-bold{% else %}hover:bg-slate-50 hover:text-gold{% endif %}">Contact</a>
             </div>
 
-            <div class="mt-auto pt-12">
+            <div class="mt-auto pt-8 flex flex-col gap-3">
+                {% if user.is_staff %}
+                <a href="{% url 'admin_chat_list' %}"
+                    class="flex items-center justify-center gap-2 w-full text-center bg-accent/10 text-accent border border-accent/30 font-bold py-3 rounded-2xl text-base">
+                    <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z" />
+                    </svg>
+                    Live Chat Inbox
+                </a>
+                {% endif %}
                 <a href="{% url 'fowl_list' %}"
-                    class="block w-full text-center bg-accent text-white font-bold py-5 rounded-2xl text-xl shadow-xl shadow-accent/20">
-                    Get Started Now
+                    class="block w-full text-center bg-accent text-white font-bold py-4 rounded-2xl text-lg shadow-xl shadow-accent/20">
+                    Order Now
                 </a>
             </div>
         </div>
@@ -143,8 +235,10 @@
         <div class="px-6 md:px-12 mt-4">
             {% for message in messages %}
             <div
-                class="p-4 rounded-lg {% if message.tags == 'success' %}bg-accent/20 text-accent border border-accent/20{% else %}bg-red-500/20 text-red-500 border border-red-500/20{% endif %} mb-4">
-                {{ message }}
+                class="p-4 pr-12 rounded-lg {% if message.tags == 'success' %}bg-accent/20 text-accent border border-accent/20{% else %}bg-red-500/20 text-red-500 border border-red-500/20{% endif %} mb-4 relative flex items-center justify-between">
+                <div>{{ message }}</div>
+                <button onclick="this.parentElement.style.display='none'"
+                    class="absolute right-4 text-2xl leading-none opacity-50 hover:opacity-100 transition-opacity">&times;</button>
             </div>
             {% endfor %}
         </div>
@@ -158,7 +252,7 @@
         <div class="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
             <div class="col-span-1 md:col-span-2">
                 <a href="{% url 'home' %}" class="text-2xl font-bold text-gold mb-4 inline-block">
-                    <span class="text-accent">Poultry</span>Elite
+                    <span class="text-accent">Universal Poultry</span> Farm
                 </a>
                 <p class="text-slate-400 max-w-md">
                     Providing premium quality poultry for your farm and business.
@@ -170,7 +264,7 @@
                 <h4 class="text-lg font-bold text-white mb-6 underline decoration-accent/30 underline-offset-8">Quick
                     Links</h4>
                 <ul class="space-y-3 text-slate-400">
-                    <li><a href="{% url 'fowl_list' %}" class="hover:text-gold transition-colors">Our Birds</a></li>
+                    <li><a href="{% url 'fowl_list' %}" class="hover:text-gold transition-colors">Our Stock</a></li>
                     <li><a href="{% url 'about' %}" class="hover:text-gold transition-colors">About Us</a></li>
                     <li><a href="{% url 'faq' %}" class="hover:text-gold transition-colors">FAQs</a></li>
                     <li><a href="{% url 'contact' %}" class="hover:text-gold transition-colors">Contact</a></li>
@@ -191,47 +285,47 @@
                         </svg>
                     </a>
                     <!-- Instagram -->
-                    <a href="#"
+                    {% comment %} <a href="#"
                         class="w-10 h-10 bg-white/5 rounded-xl flex items-center justify-center hover:bg-gold transition-all group shadow-sm">
                         <svg class="w-5 h-5 fill-slate-400 group-hover:fill-white transition-colors"
                             viewBox="0 0 24 24">
                             <path
                                 d="M12 2.163c3.204 0 3.584.012 4.85.07 1.17.054 1.805.249 2.227.412.562.217.96.477 1.382.896.419.42.679.819.896 1.381.164.422.36.163.558.21.412.164.85 2.073 .058 1.258.058 1.258.07 1.17.054 1.805.249 2.227.412.562.217.96.477 1.382.896.419.42.679.819.896 1.381.164.422.36.163.558.21.412.164.85 2.073 .058 1.258.058 1.258.07 1.17.054 1.805.249 2.227.412.562.217.96.477 1.382.896.419.42.679.819.896 1.381.164.422.36.163.558.21.412.164.85 2.073 .058 1.258.058 1.258" />
                         </svg>
-                    </a>
+                    </a> {% endcomment %}
                     <!-- X (Twitter) -->
-                    <a href="#"
+                    {% comment %} <a href="#"
                         class="w-10 h-10 bg-white/5 rounded-xl flex items-center justify-center hover:bg-gold transition-all group shadow-sm">
                         <svg class="w-5 h-5 fill-slate-400 group-hover:fill-white transition-colors"
                             viewBox="0 0 24 24">
                             <path
                                 d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
                         </svg>
-                    </a>
+                    </a> {% endcomment %}
                     <!-- LinkedIn -->
-                    <a href="#"
+                    {% comment %} <a href="#"
                         class="w-10 h-10 bg-white/5 rounded-xl flex items-center justify-center hover:bg-gold transition-all group shadow-sm">
                         <svg class="w-5 h-5 fill-slate-400 group-hover:fill-white transition-colors"
                             viewBox="0 0 24 24">
                             <path
                                 d="M4.98 3.5c0 1.381-1.11 2.5-2.48 2.5s-2.48-1.119-2.48-2.5c0-1.38 1.11-2.5 2.48-2.5s2.48 1.12 2.48 2.5zm.02 4.5h-5v16h5v-16zm7.982 0h-4.968v16h4.969v-8.399c0-4.67 6.029-5.052 6.029 0v8.399h4.988v-10.131c0-7.88-8.922-7.593-11.018-3.714v-2.155z" />
                         </svg>
-                    </a>
+                    </a> {% endcomment %}
                     <!-- WhatsApp -->
-                    <a href="#"
+                    {% comment %} <a href="#"
                         class="w-10 h-10 bg-white/5 rounded-xl flex items-center justify-center hover:bg-gold transition-all group shadow-sm">
                         <svg class="w-5 h-5 fill-slate-400 group-hover:fill-white transition-colors"
                             viewBox="0 0 24 24">
                             <path
                                 d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z" />
                         </svg>
-                    </a>
+                    </a> {% endcomment %}
                 </div>
             </div>
         </div>
 
         <div class="border-t border-white/5 pt-8 text-center text-slate-500 text-sm">
-            &copy; 2026 <span class="text-gold font-medium">PoultryElite</span>. All rights reserved.
+            &copy; 2026 <span class="text-gold font-medium">UniversalPoultryFarm</span>. All rights reserved.
         </div>
     </footer>
 
@@ -286,6 +380,464 @@
         });
     </script>
     {% block extra_js %}{% endblock %}
+
+    <!-- ═══════════════════════════════════════════════════════════ -->
+    <!-- FLOATING CHAT WIDGET                                       -->
+    <!-- ═══════════════════════════════════════════════════════════ -->
+    <style>
+        #chat-widget {
+            font-family: 'Inter', sans-serif;
+        }
+
+        #chat-bubble {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #16a34a, #0d9488);
+            border-radius: 50%;
+            box-shadow: 0 8px 32px rgba(22, 163, 74, 0.4);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.2s, box-shadow 0.2s;
+            position: relative;
+        }
+
+        #chat-bubble:hover {
+            transform: scale(1.1);
+            box-shadow: 0 12px 40px rgba(22, 163, 74, 0.5);
+        }
+
+        #unread-badge {
+            position: absolute;
+            top: -4px;
+            right: -4px;
+            background: #ef4444;
+            color: white;
+            font-size: 10px;
+            font-weight: 700;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: none;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #chat-panel {
+            width: 370px;
+            max-height: 580px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 24px 80px rgba(0, 0, 0, 0.18);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            transform: scale(0.9) translateY(20px);
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.25s cubic-bezier(.34, 1.56, .64, 1);
+        }
+
+        #chat-panel.open {
+            transform: scale(1) translateY(0);
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .chat-header {
+            background: linear-gradient(135deg, #16a34a, #0d9488);
+            padding: 18px 20px;
+        }
+
+        #chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 16px;
+            background: #f0fdf4;
+            space-y: 10px;
+        }
+
+        #chat-messages::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        #chat-messages::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        #chat-messages::-webkit-scrollbar-thumb {
+            background: #d1fae5;
+            border-radius: 4px;
+        }
+
+        .msg-visitor {
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 8px;
+        }
+
+        .msg-admin {
+            display: flex;
+            justify-content: flex-start;
+            margin-bottom: 8px;
+        }
+
+        .msg-visitor .bubble {
+            background: #16a34a;
+            color: white;
+            padding: 10px 14px;
+            border-radius: 18px 18px 4px 18px;
+            max-width: 78%;
+            width: fit-content;
+            font-size: 13px;
+            line-height: 1.5;
+            box-shadow: 0 2px 8px rgba(22, 163, 74, 0.25);
+        }
+
+        .msg-admin .bubble {
+            background: white;
+            color: #1e293b;
+            padding: 10px 14px;
+            border-radius: 18px 18px 18px 4px;
+            max-width: 78%;
+            width: fit-content;
+            font-size: 13px;
+            line-height: 1.5;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+        }
+
+        .msg-time {
+            font-size: 10px;
+            margin-top: 3px;
+            opacity: 0.6;
+        }
+
+        .typing-indicator {
+            display: none;
+            align-items: center;
+            gap: 5px;
+            padding: 10px 14px;
+            background: white;
+            border-radius: 18px 18px 18px 4px;
+            width: fit-content;
+            border: 1px solid #e2e8f0;
+        }
+
+        .typing-dot {
+            width: 7px;
+            height: 7px;
+            background: #94a3b8;
+            border-radius: 50%;
+            animation: bounce 1s infinite;
+        }
+
+        .typing-dot:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .typing-dot:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        @keyframes bounce {
+
+            0%,
+            60%,
+            100% {
+                transform: translateY(0);
+            }
+
+            30% {
+                transform: translateY(-8px);
+            }
+        }
+
+        #chat-input-area {
+            border-top: 1px solid #e2e8f0;
+            padding: 12px;
+            display: flex;
+            gap: 10px;
+            background: white;
+        }
+
+        #chat-text-input {
+            flex: 1;
+            border: 1px solid #e2e8f0;
+            border-radius: 24px;
+            padding: 10px 16px;
+            font-size: 13px;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        #chat-text-input:focus {
+            border-color: #16a34a;
+        }
+
+        #chat-send-btn {
+            width: 42px;
+            height: 42px;
+            background: #16a34a;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            border: none;
+            transition: transform 0.15s, background 0.15s;
+            flex-shrink: 0;
+        }
+
+        #chat-send-btn:hover {
+            background: #15803d;
+            transform: scale(1.1);
+        }
+
+        @media (max-width: 480px) {
+            #chat-panel {
+                width: calc(100vw - 32px);
+                max-height: 75vh;
+            }
+        }
+    </style>
+
+    <div id="chat-widget"
+        style="position:fixed;bottom:24px;right:24px;z-index:9999;display:flex;flex-direction:column;align-items:flex-end;gap:14px;">
+        <!-- Chat Panel -->
+        <div id="chat-panel">
+            <!-- Header -->
+            <div class="chat-header">
+                <div style="display:flex;align-items:center;justify-content:space-between;">
+                    <div style="display:flex;align-items:center;gap:12px;">
+                        <div
+                            style="width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,0.2);display:flex;align-items:center;justify-content:center;font-size:22px;">
+                            🌾</div>
+                        <div>
+                            <p style="color:white;font-weight:700;font-size:15px;">UniversalPoultryFarm Support</p>
+                            <div style="display:flex;align-items:center;gap:6px;">
+                                <div id="online-dot" style="width:8px;height:8px;background:#4ade80;border-radius:50%;">
+                                </div>
+                                <span style="color:rgba(255,255,255,0.85);font-size:12px;">Typically replies
+                                    instantly</span>
+                            </div>
+                        </div>
+                    </div>
+                    <button onclick="toggleChat()"
+                        style="background:rgba(255,255,255,0.15);border:none;border-radius:50%;width:32px;height:32px;cursor:pointer;display:flex;align-items:center;justify-content:center;color:white;font-size:18px;line-height:1;">✕</button>
+                </div>
+            </div>
+
+            <!-- Intro Screen -->
+            <div id="chat-intro" style="padding:24px;background:#f0fdf4;border-bottom:1px solid #e2e8f0;">
+                <p style="font-size:14px;color:#475569;margin-bottom:16px;line-height:1.6;">
+                    👋 Hi there! Need help choosing the right livestock or equipment? Chat with us now.
+                </p>
+                <input id="intro-name" type="text" placeholder="Your name (e.g. John)"
+                    style="width:100%;border:1px solid #e2e8f0;border-radius:10px;padding:10px 14px;font-size:13px;margin-bottom:10px;outline:none;box-sizing:border-box;">
+                <input id="intro-email" type="email" placeholder="Email (optional)"
+                    style="width:100%;border:1px solid #e2e8f0;border-radius:10px;padding:10px 14px;font-size:13px;margin-bottom:14px;outline:none;box-sizing:border-box;">
+                <button onclick="startChat()"
+                    style="width:100%;background:linear-gradient(135deg,#16a34a,#0d9488);color:white;font-weight:700;border:none;border-radius:10px;padding:12px;cursor:pointer;font-size:14px;transition:opacity 0.2s;">
+                    Start Chat →
+                </button>
+            </div>
+
+            <!-- Messages -->
+            <div id="chat-messages" style="display:none;"></div>
+
+            <!-- Typing -->
+            <div id="typing-row" style="display:none;padding:0 16px 8px;">
+                <div class="typing-indicator">
+                    <div class="typing-dot"></div>
+                    <div class="typing-dot"></div>
+                    <div class="typing-dot"></div>
+                </div>
+            </div>
+
+            <!-- Input -->
+            <div id="chat-input-area" style="display:none;">
+                <input id="chat-text-input" type="text" placeholder="Type a message..."
+                    onkeydown="if(event.key==='Enter') sendMsg()">
+                <button id="chat-send-btn" onclick="sendMsg()">
+                    <svg width="18" height="18" fill="white" viewBox="0 0 24 24">
+                        <path d="M2 21l21-9L2 3v7l15 2-15 2v7z" />
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <!-- Floating Bubble -->
+        <div id="chat-bubble" onclick="toggleChat()">
+            <span id="unread-badge"></span>
+            <svg id="bubble-icon-open" width="28" height="28" fill="white" viewBox="0 0 24 24">
+                <path
+                    d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-2 12H6v-2h12v2zm0-3H6V9h12v2zm0-3H6V6h12v2z" />
+            </svg>
+            <svg id="bubble-icon-close" width="26" height="26" fill="white" viewBox="0 0 24 24" style="display:none;">
+                <path d="M19 6.4L17.6 5 12 10.6 6.4 5 5 6.4l5.6 5.6L5 17.6 6.4 19l5.6-5.6 5.6 5.6 1.4-1.4-5.6-5.6z" />
+            </svg>
+        </div>
+    </div>
+
+    <script>
+        (function () {
+            let chatOpen = false;
+            let chatStarted = false;
+            let lastMsgId = 0;
+            let pollTimer = null;
+            let unreadCount = 0;
+
+            window.toggleChat = function () {
+                chatOpen = !chatOpen;
+                const panel = document.getElementById('chat-panel');
+                const iconOpen = document.getElementById('bubble-icon-open');
+                const iconClose = document.getElementById('bubble-icon-close');
+                panel.classList.toggle('open', chatOpen);
+                iconOpen.style.display = chatOpen ? 'none' : 'block';
+                iconClose.style.display = chatOpen ? 'block' : 'none';
+                if (chatOpen) {
+                    clearUnread();
+                    if (chatStarted) scrollBottom();
+                }
+            };
+
+            window.startChat = async function () {
+                const name = document.getElementById('intro-name').value.trim() || 'Guest';
+                const email = document.getElementById('intro-email').value.trim();
+                try {
+                    const res = await fetch('/chat/api/init/', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json', 'X-CSRFToken': getCookie('csrftoken') },
+                        body: JSON.stringify({ name, email })
+                    });
+                    const data = await res.json();
+                    chatStarted = true;
+                    document.getElementById('chat-intro').style.display = 'none';
+                    document.getElementById('chat-messages').style.display = 'block';
+                    document.getElementById('chat-input-area').style.display = 'flex';
+                    // Load existing messages
+                    if (data.messages && data.messages.length > 0) {
+                        data.messages.forEach(m => {
+                            appendMsg(m);
+                            lastMsgId = m.id;
+                        });
+                    } else {
+                        // Welcome message
+                        appendMsg({
+                            content: 'Hello ' + name + '! 👋 Welcome to PoultryElite. How can we help you today?',
+                            is_from_admin: true,
+                            timestamp: new Date().toTimeString().slice(0, 5)
+                        });
+                    }
+                    scrollBottom();
+                    startPolling();
+                    document.getElementById('chat-text-input').focus();
+                } catch (e) {
+                    console.error('Chat init failed:', e);
+                }
+            };
+
+            window.sendMsg = async function () {
+                const input = document.getElementById('chat-text-input');
+                const content = input.value.trim();
+                if (!content) return;
+                input.value = '';
+                const now = new Date().toTimeString().slice(0, 5);
+                appendMsg({ content, is_from_admin: false, timestamp: now });
+                scrollBottom();
+                try {
+                    const res = await fetch('/chat/api/send/', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json', 'X-CSRFToken': getCookie('csrftoken') },
+                        body: JSON.stringify({ content })
+                    });
+                    const data = await res.json();
+                    lastMsgId = data.id;
+                } catch (e) { }
+            };
+
+            function appendMsg(msg) {
+                const container = document.getElementById('chat-messages');
+                const div = document.createElement('div');
+                div.className = msg.is_from_admin ? 'msg-admin' : 'msg-visitor';
+                div.innerHTML = `
+                <div class="bubble">
+                    ${escapeHtml(msg.content)}
+                    <div class="msg-time">${msg.timestamp}</div>
+                </div>`;
+                container.appendChild(div);
+            }
+
+            function escapeHtml(text) {
+                const div = document.createElement('div');
+                div.appendChild(document.createTextNode(text));
+                return div.innerHTML;
+            }
+
+            function scrollBottom() {
+                const el = document.getElementById('chat-messages');
+                if (el) el.scrollTop = el.scrollHeight;
+            }
+
+            function clearUnread() {
+                unreadCount = 0;
+                const badge = document.getElementById('unread-badge');
+                badge.style.display = 'none';
+                badge.textContent = '';
+            }
+
+            function addUnread() {
+                unreadCount++;
+                const badge = document.getElementById('unread-badge');
+                badge.style.display = 'flex';
+                badge.textContent = unreadCount > 9 ? '9+' : unreadCount;
+            }
+
+            function startPolling() {
+                if (pollTimer) clearTimeout(pollTimer);
+                async function poll() {
+                    try {
+                        const res = await fetch(`/chat/api/poll/?last_id=${lastMsgId}`);
+                        const data = await res.json();
+                        if (data.messages && data.messages.length > 0) {
+                            data.messages.forEach(msg => {
+                                if (msg.is_from_admin) {
+                                    appendMsg(msg);
+                                    lastMsgId = msg.id;
+                                    if (!chatOpen) addUnread();
+                                    scrollBottom();
+                                    // Show typing effect briefly
+                                    showTyping();
+                                }
+                            });
+                        }
+                    } catch (e) { }
+                    pollTimer = setTimeout(poll, 2500);
+                }
+                pollTimer = setTimeout(poll, 2500);
+            }
+
+            function showTyping() {
+                const row = document.getElementById('typing-row');
+                row.style.display = 'flex';
+                setTimeout(() => row.style.display = 'none', 1500);
+            }
+
+            function getCookie(name) {
+                let cookieValue = null;
+                if (document.cookie) {
+                    document.cookie.split(';').forEach(c => {
+                        const t = c.trim();
+                        if (t.startsWith(name + '='))
+                            cookieValue = decodeURIComponent(t.slice(name.length + 1));
+                    });
+                }
+                return cookieValue;
+            }
+        })();
+    </script>
 </body>
 
 </html>

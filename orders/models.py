@@ -1,5 +1,5 @@
 from django.db import models
-from fowls.models import Fowl
+from fowls.models import Product
 
 class Order(models.Model):
     PAYMENT_METHODS = [
@@ -8,7 +8,7 @@ class Order(models.Model):
         ('BANK', 'Bank Transfer'),
     ]
 
-    fowl = models.ForeignKey(Fowl, on_delete=models.CASCADE, related_name='orders')
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='orders', null=True, blank=True)
     customer_name = models.CharField(max_length=200)
     email = models.EmailField()
     phone = models.CharField(max_length=20)

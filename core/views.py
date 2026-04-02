@@ -1,13 +1,13 @@
 from django.shortcuts import render, redirect
-from fowls.models import Fowl
+from fowls.models import Product
 from .models import FAQ
 from django.contrib import messages
 from django.core.mail import send_mail
 from django.conf import settings
 
 def home(request):
-    featured_fowls = Fowl.objects.filter(availability=True)[:4]
-    return render(request, 'core/home.html', {'featured_fowls': featured_fowls})
+    featured_products = Product.objects.filter(availability=True).order_by('-id')[:8]
+    return render(request, 'core/home.html', {'featured_products': featured_products})
 
 def about(request):
     return render(request, 'core/about.html')

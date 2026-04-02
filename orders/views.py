@@ -1,19 +1,19 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Order
-from fowls.models import Fowl
+from fowls.models import Product
 from django.contrib import messages
 from django.core.mail import send_mail
 from django.template.loader import render_to_string
 from django.conf import settings
 
-def checkout(request, fowl_pk=None):
-    fowl = None
-    if fowl_pk:
-        fowl = get_object_or_404(Fowl, pk=fowl_pk)
+def checkout(request, product_pk=None):
+    product = None
+    if product_pk:
+        product = get_object_or_404(Product, pk=product_pk)
         
     if request.method == 'POST':
-        fowl_id = request.POST.get('fowl_id')
-        fowl = get_object_or_404(Fowl, pk=fowl_id)
+        product_id = request.POST.get('product_id')
+        product = get_object_or_404(Product, pk=product_id)
         
         customer_name = request.POST.get('name')
         email = request.POST.get('email')
@@ -24,7 +24,7 @@ def checkout(request, fowl_pk=None):
         
         # Save order
         order = Order.objects.create(
-            fowl=fowl,
+            product=product,
             customer_name=customer_name,
             email=email,
             phone=phone,
@@ -37,7 +37,7 @@ def checkout(request, fowl_pk=None):
         subject = 'Payment Instructions for Your Poultry Order'
         context = {
             'customer_name': customer_name,
-            'fowl_name': fowl.name,
+            'fowl_name': product.name,
             'quantity': quantity,
             'payment_method': order.get_payment_method_display(),
             'farm_name': 'PoultryElite Farm',
@@ -53,7 +53,7 @@ def checkout(request, fowl_pk=None):
             Thank you for your order from our poultry farm.
             
             Order Details:
-            Fowl: {fowl.name}
+            Fowl: {product.name}
             Quantity: {quantity}
             Selected Payment Method: {order.get_payment_method_display()}
             
@@ -80,7 +80,7 @@ def checkout(request, fowl_pk=None):
             
         return redirect('order_success', order_id=order.id)
         
-    return render(request, 'orders/checkout.html', {'selected_fowl': fowl})
+    return render(request, 'orders/checkout.html', {'selected_product': product})
 
 def order_success(request, order_id):
     order = get_object_or_404(Order, pk=order_id)

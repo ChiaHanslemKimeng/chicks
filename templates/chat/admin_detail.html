@@ -1,0 +1,434 @@
+{% extends 'base.html' %}
+
+{% block title %}Chat with {{ room.visitor_name }} — Admin{% endblock %}
+
+{% block extra_head %}
+<style>
+    html,
+    body {
+        height: 100%;
+    }
+
+    #admin-chat-wrap {
+        display: flex;
+        flex-direction: column;
+        height: calc(100vh - 80px);
+        height: calc(100dvh - 80px);
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 24px 16px 0;
+    }
+
+    #admin-msg-list {
+        flex: 1;
+        overflow-y: auto;
+        padding: 20px;
+        background: #f0fdf4;
+        border-radius: 20px;
+        border: 1px solid #dcfce7;
+        scroll-behavior: smooth;
+    }
+
+    #admin-msg-list::-webkit-scrollbar {
+        width: 5px;
+    }
+
+    #admin-msg-list::-webkit-scrollbar-thumb {
+        background: #bbf7d0;
+        border-radius: 4px;
+    }
+
+    .bubble-admin {
+        max-width: 70%;
+        width: fit-content;
+        background: #16a34a;
+        color: white;
+        padding: 11px 16px;
+        border-radius: 18px 18px 4px 18px;
+        font-size: 14px;
+        line-height: 1.55;
+        box-shadow: 0 2px 8px rgba(22, 163, 74, 0.25);
+    }
+
+    .bubble-visitor {
+        max-width: 70%;
+        width: fit-content;
+        background: white;
+        color: #1e293b;
+        padding: 11px 16px;
+        border-radius: 18px 18px 18px 4px;
+        font-size: 14px;
+        line-height: 1.55;
+        border: 1px solid #e2e8f0;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    }
+
+    .msg-row-admin {
+        display: flex;
+        justify-content: flex-end;
+        margin-bottom: 10px;
+    }
+
+    .msg-row-visitor {
+        display: flex;
+        justify-content: flex-start;
+        margin-bottom: 10px;
+        gap: 10px;
+    }
+
+    .avatar-ring {
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #16a34a, #0d9488);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-weight: 700;
+        font-size: 14px;
+        flex-shrink: 0;
+        margin-top: 2px;
+    }
+
+    .msg-time {
+        font-size: 10px;
+        opacity: 0.6;
+        margin-top: 4px;
+        display: block;
+    }
+
+    .typing-dots {
+        display: none;
+        justify-content: flex-start;
+        gap: 10px;
+        align-items: center;
+        margin-bottom: 10px;
+    }
+
+    .typing-bubble {
+        background: white;
+        border: 1px solid #e2e8f0;
+        border-radius: 18px 18px 18px 4px;
+        padding: 10px 15px;
+        display: flex;
+        gap: 5px;
+        align-items: center;
+    }
+
+    .dot {
+        width: 8px;
+        height: 8px;
+        background: #94a3b8;
+        border-radius: 50%;
+        animation: bounce 1s ease-in-out infinite;
+    }
+
+    .dot:nth-child(2) {
+        animation-delay: 0.18s;
+    }
+
+    .dot:nth-child(3) {
+        animation-delay: 0.36s;
+    }
+
+    @keyframes bounce {
+
+        0%,
+        60%,
+        100% {
+            transform: translateY(0);
+        }
+
+        30% {
+            transform: translateY(-7px);
+        }
+    }
+
+    #admin-input-row {
+        padding: 14px 0 20px;
+        display: flex;
+        gap: 12px;
+        align-items: center;
+    }
+
+    #admin-text {
+        flex: 1;
+        border: 1.5px solid #e2e8f0;
+        border-radius: 28px;
+        padding: 13px 20px;
+        font-size: 14px;
+        outline: none;
+        transition: border-color 0.2s;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    }
+
+    #admin-text:focus {
+        border-color: #16a34a;
+    }
+
+    #admin-send-btn {
+        width: 50px;
+        height: 50px;
+        background: linear-gradient(135deg, #16a34a, #0d9488);
+        border-radius: 50%;
+        border: none;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        transition: transform 0.15s;
+        box-shadow: 0 4px 16px rgba(22, 163, 74, 0.3);
+    }
+
+    #admin-send-btn:hover {
+        transform: scale(1.08);
+    }
+
+    .status-dot {
+        width: 10px;
+        height: 10px;
+        background: #4ade80;
+        border-radius: 50%;
+        display: inline-block;
+        animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+
+        0%,
+        100% {
+            opacity: 1;
+        }
+
+        50% {
+            opacity: 0.5;
+        }
+    }
+
+    /* Hide the global footer because it interferes with the full-height chat window */
+    footer {
+        display: none !important;
+    }
+
+    @media (max-width: 640px) {
+        #admin-chat-wrap {
+            padding: 12px 0 0;
+            height: 100dvh;
+        }
+
+        #admin-msg-list {
+            padding: 12px;
+            border-radius: 0;
+            border-left: none;
+            border-right: none;
+        }
+
+        #admin-input-row {
+            padding: 10px 14px 14px;
+        }
+
+        .bubble-admin,
+        .bubble-visitor {
+            max-width: 90%;
+        }
+
+        .admin-header-row {
+            padding: 0 12px 14px !important;
+        }
+
+        .view-admin-btn {
+            font-size: 11px !important;
+            padding: 5px 10px !important;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div id="admin-chat-wrap">
+
+    <!-- Header -->
+    <div class="admin-header-row"
+        style="display:flex;align-items:center;gap:14px;padding-bottom:16px;border-bottom:1px solid #e2e8f0;margin-bottom:4px;">
+        <a href="{% url 'admin_chat_list' %}"
+            style="color:#94a3b8;display:flex;align-items:center;transition:color 0.2s;"
+            onmouseover="this.style.color='#16a34a'" onmouseout="this.style.color='#94a3b8'">
+            <svg width="22" height="22" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+            </svg>
+        </a>
+        <div
+            style="width:46px;height:46px;border-radius:50%;background:linear-gradient(135deg,#16a34a,#0d9488);display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:18px;box-shadow:0 4px 12px rgba(22,163,74,0.3);">
+            {{ room.visitor_name|first|upper }}
+        </div>
+        <div style="flex:1;">
+            <div style="display:flex;align-items:center;gap:8px;">
+                <span style="font-weight:700;font-size:17px;color:#1e293b;">{{ room.visitor_name }}</span>
+                {% if room.visitor_email %}<span style="font-size:12px;color:#94a3b8;">· {{ room.visitor_email}}</span>{% endif %}
+            </div>
+            <div style="display:flex;align-items:center;gap:6px;margin-top:2px;">
+                <span class="status-dot"></span>
+                <span style="font-size:12px;color:#64748b;">Live — polling for messages</span>
+            </div>
+        </div>
+        <a href="/admin/chat/chatroom/{{ room.id }}/change/" class="view-admin-btn"
+            style="font-size:12px;color:#b45309;font-weight:600;text-decoration:none;padding:6px 14px;border:1px solid #fde68a;border-radius:20px;background:#fefce8;white-space:nowrap;"
+            onmouseover="this.style.background='#fef9c3'" onmouseout="this.style.background='#fefce8'">
+            View in Admin ↗
+        </a>
+    </div>
+
+    <!-- Messages -->
+    <div id="admin-msg-list">
+        {% for msg in chat_messages %}
+        {% if msg.is_from_admin %}
+        <div class="msg-row-admin">
+            <div>
+                <div class="bubble-admin">{{ msg.content }}</div>
+                <span class="msg-time" style="text-align:right;">{{ msg.timestamp|date:"H:i" }} · You</span>
+            </div>
+        </div>
+        {% else %}
+        <div class="msg-row-visitor">
+            <div class="avatar-ring">{{ room.visitor_name|first|upper }}</div>
+            <div>
+                <div class="bubble-visitor">{{ msg.content }}</div>
+                <span class="msg-time">{{ msg.timestamp|date:"H:i" }} · {{ room.visitor_name }}</span>
+            </div>
+        </div>
+        {% endif %}
+        {% empty %}
+        <div style="text-align:center;padding:60px 20px;color:#94a3b8;">
+            <div style="font-size:36px;margin-bottom:12px;">💬</div>
+            <p style="font-size:15px;font-weight:500;">No messages yet</p>
+            <p style="font-size:13px;margin-top:4px;">The visitor will appear here once they send a message.</p>
+        </div>
+        {% endfor %}
+
+        <!-- Typing indicator -->
+        <div class="typing-dots" id="admin-typing">
+            <div class="avatar-ring" style="width:30px;height:30px;font-size:12px;">{{ room.visitor_name|first|upper }}
+            </div>
+            <div class="typing-bubble">
+                <div class="dot"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Input Bar -->
+    {% csrf_token %}
+    <div id="admin-input-row">
+        <input id="admin-text" type="text" placeholder="Type a reply to {{ room.visitor_name }}..."
+            onkeydown="if(event.key==='Enter') adminSend()">
+        <button id="admin-send-btn" onclick="adminSend()">
+            <svg width="20" height="20" fill="white" viewBox="0 0 24 24">
+                <path d="M2 21l21-9L2 3v7l15 2-15 2v7z" />
+            </svg>
+        </button>
+    </div>
+
+</div>
+
+<script>
+    (function () {
+        const ROOM_ID = Number("{{ room.id }}");
+        let lastId = Number("{{ chat_messages.last.id|default:0 }}");
+        const msgList = document.getElementById('admin-msg-list');
+        const visitorInitial = "{{ room.visitor_name|first|upper }}";
+        const visitorName = "{{ room.visitor_name|escapejs }}";
+
+        function scrollBottom() {
+            msgList.scrollTop = msgList.scrollHeight;
+        }
+        scrollBottom();
+
+        function getCookie(name) {
+            let v = null;
+            if (document.cookie) {
+                document.cookie.split(';').forEach(c => {
+                    const t = c.trim();
+                    if (t.startsWith(name + '=')) v = decodeURIComponent(t.slice(name.length + 1));
+                });
+            }
+            return v;
+        }
+
+        function appendAdminMsg(content, time) {
+            const row = document.createElement('div');
+            row.className = 'msg-row-admin';
+            row.innerHTML = `
+            <div>
+                <div class="bubble-admin">${escHtml(content)}</div>
+                <span class="msg-time" style="text-align:right;">${time} · You</span>
+            </div>`;
+            msgList.insertBefore(row, document.getElementById('admin-typing'));
+            scrollBottom();
+        }
+
+        function appendVisitorMsg(content, time) {
+            const typing = document.getElementById('admin-typing');
+            typing.style.display = 'flex';
+            setTimeout(() => {
+                typing.style.display = 'none';
+                const row = document.createElement('div');
+                row.className = 'msg-row-visitor';
+                row.innerHTML = `
+                <div class="avatar-ring">${escHtml(visitorInitial)}</div>
+                <div>
+                    <div class="bubble-visitor">${escHtml(content)}</div>
+                    <span class="msg-time">${time} · ${escHtml(visitorName)}</span>
+                </div>`;
+                msgList.insertBefore(row, typing);
+                scrollBottom();
+            }, 800);
+        }
+
+        function escHtml(t) {
+            const d = document.createElement('div');
+            d.appendChild(document.createTextNode(t));
+            return d.innerHTML;
+        }
+
+        window.adminSend = async function () {
+            const input = document.getElementById('admin-text');
+            const content = input.value.trim();
+            if (!content) return;
+            input.value = '';
+            const now = new Date().toTimeString().slice(0, 5);
+            appendAdminMsg(content, now);
+            try {
+                const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+                const res = await fetch(`/chat/admin-chat/${ROOM_ID}/reply/`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', 'X-CSRFToken': csrfToken },
+                    body: JSON.stringify({ content })
+                });
+                const data = await res.json();
+                if (data.id && data.id > lastId) lastId = data.id;
+            } catch (e) { }
+        };
+
+        async function poll() {
+            try {
+                const res = await fetch(`/chat/admin-chat/${ROOM_ID}/poll/?last_id=${lastId}`);
+                const data = await res.json();
+                if (data.messages && data.messages.length > 0) {
+                    data.messages.forEach(m => {
+                        if (!m.is_from_admin) {
+                            appendVisitorMsg(m.content, m.timestamp);
+                        }
+                        if (m.id > lastId) lastId = m.id;
+                    });
+                }
+            } catch (e) { }
+            setTimeout(poll, 2500);
+        }
+
+        setTimeout(poll, 2500);
+    })();
+</script>
+{% endblock %}

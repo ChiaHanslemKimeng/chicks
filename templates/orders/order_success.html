@@ -15,7 +15,7 @@
 
         <div class="bg-white p-8 md:p-12 rounded-3xl border border-slate-100 mb-12 shadow-xl">
             <p class="text-xl text-slate-600 leading-relaxed">
-                Your order for <span class="text-slate-800 font-bold">{{ order.fowl.name }}</span> has been placed.
+                Your order for <span class="text-slate-800 font-bold">{{ order.product.name }}</span> has been placed.
             </p>
             <div class="h-1 w-24 bg-gold mx-auto my-6 rounded-full"></div>
             <p class="text-slate-500">
@@ -29,7 +29,7 @@
         <div class="flex flex-col sm:flex-row gap-4 justify-center">
             <a href="{% url 'fowl_list' %}"
                 class="bg-accent text-white font-bold py-4 px-10 rounded-xl transition-all hover:scale-105 shadow-lg shadow-accent/20">
-                Browse More Birds
+                Browse More Products
             </a>
             <a href="{% url 'home' %}"
                 class="bg-white text-slate-800 font-bold py-4 px-10 rounded-xl transition-all hover:bg-slate-50 border border-slate-100 shadow-sm">

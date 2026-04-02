@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block title %}All Birds - PoultryElite{% endblock %}
+{% block title %}{% if current_category %}{{ current_category.name }}{% else %}All Products{% endif %} - PoultryElite{% endblock %}
 
 {% block content %}
 <section class="py-12 bg-primary">
@@ -9,20 +9,22 @@
             <!-- Sidebar / Filters -->
             <aside class="w-full lg:w-1/4" data-aos="fade-right">
                 <div class="bg-white p-8 rounded-3xl sticky top-24 shadow-sm border border-slate-200">
-                    <h3 class="text-xl font-bold text-slate-800 mb-6">Filter Results</h3>
+                    <h3 class="text-xl font-bold text-slate-800 mb-6">Filter {{ current_category.name|default:"Stock" }}
+                    </h3>
 
-                    <form method="GET" action="{% url 'fowl_list' %}" class="space-y-8">
+                    <form method="GET"
+                        action="{% if current_category %}{% url 'category_list' current_category.slug %}{% else %}{% url 'fowl_list' %}{% endif %}"
+                        class="space-y-8">
                         <!-- Search -->
                         <div>
                             <label class="block text-sm font-medium text-slate-500 mb-2">Search</label>
-                            <input type="text" name="search" value="{{ request.GET.search }}"
-                                placeholder="Search breeds..."
+                            <input type="text" name="search" value="{{ request.GET.search }}" placeholder="Search..."
                                 class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-slate-800 focus:border-gold outline-none text-sm transition-colors">
                         </div>
 
                         <!-- Breed -->
                         <div>
-                            <label class="block text-sm font-medium text-slate-500 mb-2">Breed Category</label>
+                            <label class="block text-sm font-medium text-slate-500 mb-2">Breed / Type</label>
                             <select name="breed"
                                 class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-slate-800 focus:border-gold outline-none text-sm transition-colors">
                                 <option value="">All Breeds</option>
@@ -49,9 +51,9 @@
                         <div class="flex gap-4">
                             <button type="submit"
                                 class="flex-grow bg-accent hover:bg-accent/90 text-white font-bold py-3 rounded-xl transition-all">
-                                Apply Filters
+                                Apply
                             </button>
-                            <a href="{% url 'fowl_list' %}"
+                            <a href="{% if current_category %}{% url 'category_list' current_category.slug %}{% else %}{% url 'fowl_list' %}{% endif %}"
                                 class="w-12 h-12 flex items-center justify-center bg-slate-100 hover:bg-slate-200 rounded-xl transition-all text-xl"
                                 title="Clear Filters">
                                 ↺
@@ -64,47 +66,48 @@
             <!-- Listing Grid -->
             <div class="flex-grow">
                 <div class="flex justify-between items-center mb-8">
-                    <h2 class="text-3xl font-bold text-slate-800">Available <span class="text-gold">Birds</span></h2>
-                    <p class="text-slate-500 text-sm">Showing {{ page_obj.start_index }}-{{ page_obj.end_index }} of {{ page_obj.paginator.count }} results</p>
+                    <h2 class="text-3xl font-bold text-slate-800">Our <span class="text-gold">{{ current_category.name|default:"Stock" }}</span></h2>
+                    <p class="text-slate-500 text-sm">Showing {{ page_obj.start_index }}-{{ page_obj.end_index }} of {{ page_obj.paginator.count }} items</p>
                 </div>
 
                 <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-8">
-                    {% for fowl in page_obj %}
+                    {% for product in page_obj %}
                     <div data-aos="fade-up" data-aos-delay="{{ forloop.counter|add:100 }}"
                         class="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-md hover:border-accent/30 border border-slate-200 transition-all duration-500 group">
                         <div class="h-64 overflow-hidden relative">
-                            {% if fowl.thumbnail %}
-                            <img src="{{ fowl.thumbnail.url }}" alt="{{ fowl.name }}"
+                            {% if product.thumbnail %}
+                            <img src="{{ product.thumbnail.url }}" alt="{{ product.name }}"
                                 class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
                             {% else %}
-                            <div class="w-full h-full bg-slate-100 flex items-center justify-center text-slate-400">No
-                                Image</div>
+                            <div class="w-full h-full bg-slate-100 flex items-center justify-center text-slate-400">
+                                <span class="text-4xl opacity-20">📦</span>
+                            </div>
                             {% endif %}
                             <div
                                 class="absolute top-4 right-4 bg-white/90 backdrop-blur text-gold font-bold px-3 py-1 rounded-lg text-sm shadow-sm">
-                                ${{ fowl.price }}
+                                ${{ product.price }}
                             </div>
                         </div>
                         <div class="p-6">
-                            <span class="text-accent text-xs font-bold uppercase tracking-wider">{{ fowl.breed.name }}</span>
-                            <h3 class="text-xl font-bold text-slate-800 mt-1 mb-2">{{ fowl.name }}</h3>
-                            <p class="text-slate-500 text-sm line-clamp-2 mb-4">{{ fowl.description }}</p>
+                            <span class="text-accent text-xs font-bold uppercase tracking-wider">{{ product.breed.name }}</span>
+                            <h3 class="text-xl font-bold text-slate-800 mt-1 mb-2">{{ product.name }}</h3>
+                            <p class="text-slate-500 text-sm line-clamp-2 mb-4">{{ product.description }}</p>
 
                             <div class="grid grid-cols-2 gap-2 mb-6">
                                 <div class="text-xs bg-slate-50 p-2 rounded-lg text-slate-500">
                                     <span
-                                        class="block font-bold text-slate-400 mb-1 uppercase tracking-tighter">Age</span>
-                                    {{ fowl.age }}
+                                        class="block font-bold text-slate-400 mb-1 uppercase tracking-tighter">Age/Status</span>
+                                    {{ product.age|default:"Product" }}
                                 </div>
                                 <div class="text-xs bg-slate-50 p-2 rounded-lg text-slate-500">
                                     <span
-                                        class="block font-bold text-slate-400 mb-1 uppercase tracking-tighter">Weight</span>
-                                    {{ fowl.weight }}
+                                        class="block font-bold text-slate-400 mb-1 uppercase tracking-tighter">Availability</span>
+                                    {% if product.availability %}In Stock{% else %}Out of Stock{% endif %}
                                 </div>
                             </div>
 
                             <div class="flex items-center justify-between">
-                                <a href="{% url 'fowl_detail' fowl.pk %}"
+                                <a href="{% url 'fowl_detail' product.pk %}"
                                     class="flex-grow bg-slate-50 hover:bg-gold hover:text-white text-slate-800 text-center font-bold py-3 rounded-xl transition-all duration-300">
                                     View Details
                                 </a>
@@ -114,8 +117,8 @@
                     {% empty %}
                     <div
                         class="col-span-full text-center py-24 bg-white rounded-3xl border border-dashed border-slate-200 shadow-sm">
-                        <p class="text-slate-400 italic text-lg">No birds match your current filters. Try resetting.</p>
-                        <a href="{% url 'fowl_list' %}"
+                        <p class="text-slate-400 italic text-lg">No items match your current filters. Try resetting.</p>
+                        <a href="{% if current_category %}{% url 'category_list' current_category.slug %}{% else %}{% url 'fowl_list' %}{% endif %}"
                             class="inline-block mt-4 text-gold border-b border-gold pb-1 hover:text-accent hover:border-accent transition-colors">Clear
                             all filters</a>
                     </div>

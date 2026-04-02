@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'fowls',
     'orders',
     'reviews',
+    'chat',
 ]
 
 MIDDLEWARE = [
@@ -139,4 +140,11 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'hanslemkimeng5@gmail.com'
 EMAIL_HOST_PASSWORD = 'ltal ddbn eoil fgiu' # Use App Password for Gmail
-DEFAULT_FROM_EMAIL = 'PoultryElite <hanslemkimeng5@gmail.com>'
+DEFAULT_FROM_EMAIL = 'Universal Poultry Farm <hanslemkimeng5@gmail.com>'
+
+# ─── Session Configuration ──────────────────────────────────────────────────
+# Keep sessions alive for 1 hour (3600 seconds) after the user leaves.
+# This lets users resume their chat without losing their conversation history.
+SESSION_COOKIE_AGE = 3600          # 1 hour in seconds
+SESSION_EXPIRE_AT_BROWSER_CLOSE = False  # Persist session after browser closes
+SESSION_SAVE_EVERY_REQUEST = True  # Refresh the 1hr timer on each page visit

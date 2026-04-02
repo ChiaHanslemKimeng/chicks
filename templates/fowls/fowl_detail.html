@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block title %}{{ fowl.name }} - PoultryElite{% endblock %}
+{% block title %}{{ product.name }} - Universal Poultry Farm{% endblock %}
 
 {% block content %}
 <section class="py-12 bg-slate-50">
@@ -9,9 +9,12 @@
         <div class="flex items-center gap-2 text-sm text-slate-400 mb-8">
             <a href="{% url 'home' %}" class="hover:text-amber-600 transition-colors">Home</a>
             <span>/</span>
-            <a href="{% url 'fowl_list' %}" class="hover:text-amber-600 transition-colors">Birds</a>
+            <a href="{% if product.category %}{% url 'category_list' product.category.slug %}{% else %}{% url 'fowl_list' %}{% endif %}"
+                class="hover:text-amber-600 transition-colors">
+                {{ product.category.name|default:"Stock" }}
+            </a>
             <span>/</span>
-            <span class="text-gold font-medium">{{ fowl.name }}</span>
+            <span class="text-gold font-medium">{{ product.name }}</span>
         </div>
 
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-16">
@@ -19,15 +22,17 @@
             <div class="space-y-6">
                 <div
                     class="aspect-square rounded-3xl overflow-hidden bg-white border border-slate-100 relative shadow-sm">
-                    {% if fowl.thumbnail %}
-                    <img src="{{ fowl.thumbnail.url }}" alt="{{ fowl.name }}" id="main-image"
+                    {% if product.thumbnail %}
+                    <img src="{{ product.thumbnail.url }}" alt="{{ product.name }}" id="main-image"
                         class="w-full h-full object-cover">
                     {% else %}
-                    <div class="w-full h-full flex items-center justify-center text-slate-300">No Image Selected</div>
+                    <div class="w-full h-full flex items-center justify-center text-slate-300">
+                        <span class="text-6xl opacity-20">📦</span>
+                    </div>
                     {% endif %}
 
                     <div class="absolute top-6 left-6 flex flex-col gap-2">
-                        {% if fowl.availability %}
+                        {% if product.availability %}
                         <span
                             class="bg-accent/90 backdrop-blur text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">In
                             Stock</span>
@@ -41,14 +46,14 @@
 
                 <!-- Thumbnails -->
                 <div class="grid grid-cols-4 gap-4">
-                    {% if fowl.thumbnail %}
-                    <button onclick="document.getElementById('main-image').src='{{ fowl.thumbnail.url }}'"
+                    {% if product.thumbnail %}
+                    <button onclick="document.getElementById('main-image').src='{{ product.thumbnail.url }}'"
                         class="aspect-square rounded-2xl overflow-hidden border-2 border-gold hover:border-gold transition-all shadow-sm">
-                        <img src="{{ fowl.thumbnail.url }}" class="w-full h-full object-cover">
+                        <img src="{{ product.thumbnail.url }}" class="w-full h-full object-cover">
                     </button>
                     {% endif %}
 
-                    {% for img in fowl.images.all %}
+                    {% for img in product.images.all %}
                     <button onclick="document.getElementById('main-image').src='{{ img.image.url }}'"
                         class="aspect-square rounded-2xl overflow-hidden border-2 border-transparent hover:border-gold transition-all shadow-sm bg-white">
                         <img src="{{ img.image.url }}" class="w-full h-full object-cover">
@@ -57,45 +62,47 @@
                 </div>
             </div>
 
-            <!-- Bird Info -->
+            <!-- Product Info -->
             <div>
                 <div class="mb-8">
-                    <span class="text-accent font-bold uppercase tracking-[0.2em] text-sm block mb-2">{{ fowl.breed.name }}</span>
-                    <h1 class="text-4xl md:text-5xl font-bold text-slate-800 mb-4">{{ fowl.name }}</h1>
-                    <p class="text-3xl font-bold text-gold">${{ fowl.price }}</p>
+                    <span class="text-accent font-bold uppercase tracking-[0.2em] text-sm block mb-2">{{ product.breed.name }}</span>
+                    <h1 class="text-4xl md:text-5xl font-bold text-slate-800 mb-4">{{ product.name }}</h1>
+                    <p class="text-3xl font-bold text-gold">${{ product.price }}</p>
                 </div>
 
                 <div class="prose prose-slate prose-lg text-slate-600 mb-10 max-w-none">
-                    <p>{{ fowl.description }}</p>
+                    <p>{{ product.description }}</p>
                 </div>
 
                 <!-- Specs Grid -->
                 <div class="grid grid-cols-2 md:grid-cols-3 gap-6 mb-12">
                     <div class="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm">
-                        <p class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-1">Age</p>
-                        <p class="text-lg font-bold text-slate-800">{{ fowl.age }}</p>
+                        <p class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-1">Age/Status</p>
+                        <p class="text-lg font-bold text-slate-800">{{ product.age|default:"Product" }}</p>
                     </div>
                     <div class="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm">
                         <p class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-1">Weight</p>
-                        <p class="text-lg font-bold text-slate-800">{{ fowl.weight|default:"N/A" }}</p>
+                        <p class="text-lg font-bold text-slate-800">{{ product.weight|default:"N/A" }}</p>
                     </div>
+                    {% if product.category.slug == 'birds' or product.category.slug == 'livestock' %}
                     <div class="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm">
                         <p class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-1">Vaccination</p>
-                        <p class="text-lg font-bold text-accent">{% if fowl.vaccination_status %}✓{% endif %}
-                            {{ fowl.vaccination_status }}</p>
+                        <p class="text-lg font-bold text-accent">{% if product.vaccination_status %}✓{% endif %}
+                            {{ product.vaccination_status }}</p>
                     </div>
+                    {% endif %}
                     <div class="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm col-span-2">
-                        <p class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-1">Feeding Type</p>
-                        <p class="text-lg font-bold text-slate-800">{{ fowl.feeding_type|default:"Standard Poultry Feed" }}
+                        <p class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-1">Feeding/Details</p>
+                        <p class="text-lg font-bold text-slate-800">{{ product.feeding_type|default:"Verified Quality" }}
                         </p>
                     </div>
                 </div>
 
                 <!-- Order Action -->
-                {% if fowl.availability %}
-                <a href="{% url 'checkout' fowl.pk %}"
+                {% if product.availability %}
+                <a href="{% url 'checkout' product.pk %}"
                     class="inline-block w-full text-center bg-gold hover:bg-gold/90 text-white font-bold py-5 rounded-2xl text-xl transition-all hover:scale-[1.02] active:scale-[0.98] shadow-lg shadow-gold/20">
-                    Order This Bird Now
+                    Order Now
                 </a>
                 {% else %}
                 <button disabled
@@ -104,25 +111,25 @@
                 </button>
                 {% endif %}
 
-                <p class="text-center mt-4 text-sm text-slate-400">Fast delivery available across the country. Secure
-                    payment methods.</p>
+                <p class="text-center mt-4 text-sm text-slate-400">Fast delivery available. Secure payment instructions
+                    via email.</p>
             </div>
         </div>
 
-        <!-- Related Birds -->
-        {% if related_fowls %}
+        <!-- Related Products -->
+        {% if related_products %}
         <div class="mt-32">
-            <h2 class="text-3xl font-bold text-slate-800 mb-12">Other <span class="text-accent">{{ fowl.breed.name
-                    }}</span>
-                Available</h2>
+            <h2 class="text-3xl font-bold text-slate-800 mb-12">Other <span class="text-accent">{{ product.category.name|default:"Stock" }}</span> Available</h2>
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-                {% for related in related_fowls %}
+                {% for related in related_products %}
                 <a href="{% url 'fowl_detail' related.pk %}"
                     class="bg-white rounded-2xl overflow-hidden group border border-slate-100 hover:border-gold/30 transition-all p-4 shadow-sm hover:shadow-md">
                     <div class="aspect-square rounded-xl overflow-hidden mb-4">
                         {% if related.thumbnail %}
                         <img src="{{ related.thumbnail.url }}"
                             class="w-full h-full object-cover transition-transform group-hover:scale-110">
+                        {% else %}
+                        <div class="w-full h-full bg-slate-50 flex items-center justify-center text-4xl">📦</div>
                         {% endif %}
                     </div>
                     <h4 class="font-bold text-slate-800 group-hover:text-gold transition-colors">{{ related.name }}</h4>
