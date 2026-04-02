@@ -188,7 +188,7 @@
                 </button>
             </div>
 
-            <div class="flex flex-col gap-1 text-base font-semibold text-secondary">
+            <div class="flex flex-col gap-2 text-base font-semibold text-secondary">
                 <a href="{% url 'home' %}"
                     class="px-4 py-3 rounded-xl transition-colors {% if request.path == '/' %}bg-accent/10 text-accent font-bold{% else %}hover:bg-slate-50 hover:text-gold{% endif %}">Home</a>
                 <!-- Mobile Dropdown Accordion -->
@@ -206,33 +206,33 @@
                     </button>
                     <!-- Floating mobile dropdown -->
                     <div id="mobile-dropdown"
-                        class="flex flex-col mt-2 hidden bg-white shadow-xl rounded-2xl border border-slate-100 py-2 mx-2">
+                        class="flex flex-col mt-2 hidden bg-white shadow-xl rounded-2xl border border-slate-100 py-3 mx-2 gap-1">
                         <a href="{% url 'fowl_list' %}"
-                            class="flex items-center gap-3 px-4 py-2.5 rounded-xl transition-colors {% if request.resolver_match.url_name == 'fowl_list' %}bg-accent/10 text-accent font-bold{% else %}hover:bg-slate-50 hover:text-gold{% endif %}">
+                            class="flex items-center gap-3 px-4 py-4 rounded-xl transition-colors {% if request.resolver_match.url_name == 'fowl_list' %}bg-accent/10 text-accent font-bold{% else %}hover:bg-slate-50 hover:text-gold{% endif %}">
                             <span class="text-xl">🐔</span> All Products
                         </a>
                         <a href="{% url 'category_list' 'birds' %}"
-                            class="flex items-center gap-3 px-4 py-2.5 rounded-xl transition-colors {% if request.path == '/fowls/birds/' %}bg-accent/10 text-accent font-bold{% else %}hover:bg-slate-50 hover:text-gold{% endif %}">
+                            class="flex items-center gap-3 px-4 py-4 rounded-xl transition-colors {% if request.path == '/fowls/birds/' %}bg-accent/10 text-accent font-bold{% else %}hover:bg-slate-50 hover:text-gold{% endif %}">
                             <span class="text-xl">🐔</span> Birds
                         </a>
                         <a href="{% url 'category_list' 'eggs' %}"
-                            class="flex items-center gap-3 px-4 py-2.5 rounded-xl transition-colors {% if request.path == '/fowls/eggs/' %}bg-accent/10 text-accent font-bold{% else %}hover:bg-slate-50 hover:text-gold{% endif %}">
+                            class="flex items-center gap-3 px-4 py-4 rounded-xl transition-colors {% if request.path == '/fowls/eggs/' %}bg-accent/10 text-accent font-bold{% else %}hover:bg-slate-50 hover:text-gold{% endif %}">
                             <span class="text-xl">🥚</span> Eggs
                         </a>
                         <a href="{% url 'category_list' 'livestock' %}?breed=camborough-piglet"
-                            class="flex items-center gap-3 px-4 py-2.5 rounded-xl transition-colors {% if 'camborough-piglet' in request.GET.breed %}bg-accent/10 text-accent font-bold{% else %}hover:bg-slate-50 hover:text-gold{% endif %}">
+                            class="flex items-center gap-3 px-4 py-4 rounded-xl transition-colors {% if 'camborough-piglet' in request.GET.breed %}bg-accent/10 text-accent font-bold{% else %}hover:bg-slate-50 hover:text-gold{% endif %}">
                             <span class="text-xl">🐷</span> Piglet / Guinea Pig
                         </a>
                         <a href="{% url 'category_list' 'livestock' %}?breed=holstein-calf"
-                            class="flex items-center gap-3 px-4 py-2.5 rounded-xl transition-colors {% if 'holstein-calf' in request.GET.breed %}bg-accent/10 text-accent font-bold{% else %}hover:bg-slate-50 hover:text-gold{% endif %}">
+                            class="flex items-center gap-3 px-4 py-4 rounded-xl transition-colors {% if 'holstein-calf' in request.GET.breed %}bg-accent/10 text-accent font-bold{% else %}hover:bg-slate-50 hover:text-gold{% endif %}">
                             <span class="text-xl">🐄</span> Calves
                         </a>
                         <a href="{% url 'category_list' 'livestock' %}?breed=boar-goat"
-                            class="flex items-center gap-3 px-4 py-2.5 rounded-xl transition-colors {% if 'boar-goat' in request.GET.breed %}bg-accent/10 text-accent font-bold{% else %}hover:bg-slate-50 hover:text-gold{% endif %}">
+                            class="flex items-center gap-3 px-4 py-4 rounded-xl transition-colors {% if 'boar-goat' in request.GET.breed %}bg-accent/10 text-accent font-bold{% else %}hover:bg-slate-50 hover:text-gold{% endif %}">
                             <span class="text-xl">🐐</span> Goats
                         </a>
                         <a href="{% url 'category_list' 'equipment' %}?breed=chicken-coop"
-                            class="flex items-center gap-3 px-4 py-2.5 rounded-xl transition-colors {% if 'chicken-coop' in request.GET.breed %}bg-accent/10 text-accent font-bold{% else %}hover:bg-slate-50 hover:text-gold{% endif %}">
+                            class="flex items-center gap-3 px-4 py-4 rounded-xl transition-colors {% if 'chicken-coop' in request.GET.breed %}bg-accent/10 text-accent font-bold{% else %}hover:bg-slate-50 hover:text-gold{% endif %}">
                             <span class="text-xl">🏠</span> Chicken Coop
                         </a>
                     </div>
