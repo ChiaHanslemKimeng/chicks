@@ -12,4 +12,5 @@ urlpatterns = [
     path('admin-chat/<int:room_id>/', views.admin_chat_detail, name='admin_chat_detail'),
     path('admin-chat/<int:room_id>/reply/', views.admin_reply, name='admin_reply'),
     path('admin-chat/<int:room_id>/poll/', views.admin_poll, name='admin_poll'),
+    path('admin-chat/<int:room_id>/close/', views.admin_close_chat, name='admin_close_chat'),
 ]

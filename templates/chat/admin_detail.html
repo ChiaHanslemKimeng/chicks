@@ -266,7 +266,8 @@
         <div style="flex:1;">
             <div style="display:flex;align-items:center;gap:8px;">
                 <span style="font-weight:700;font-size:17px;color:#1e293b;">{{ room.visitor_name }}</span>
-                {% if room.visitor_email %}<span style="font-size:12px;color:#94a3b8;">· {{ room.visitor_email}}</span>{% endif %}
+                {% if room.visitor_email %}<span style="font-size:12px;color:#94a3b8;">· {{
+                    room.visitor_email}}</span>{% endif %}
             </div>
             <div style="display:flex;align-items:center;gap:6px;margin-top:2px;">
                 <span class="status-dot"></span>
@@ -278,6 +279,14 @@
             onmouseover="this.style.background='#fef9c3'" onmouseout="this.style.background='#fefce8'">
             View in Admin ↗
         </a>
+        <form action="{% url 'admin_close_chat' room.id %}" method="post" style="margin:0;">
+            {% csrf_token %}
+            <button type="submit"
+                style="font-size:12px;color:#991b1b;font-weight:600;text-decoration:none;padding:6px 14px;border:1px solid #fecaca;border-radius:20px;background:#fef2f2;white-space:nowrap;cursor:pointer;"
+                onmouseover="this.style.background='#fee2e2'" onmouseout="this.style.background='#fef2f2'">
+                Close Chat ✕
+            </button>
+        </form>
     </div>
 
     <!-- Messages -->

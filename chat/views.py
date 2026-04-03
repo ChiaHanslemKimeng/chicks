@@ -3,7 +3,7 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_http_methods
 from django.contrib.admin.views.decorators import staff_member_required
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.utils import timezone
 from .models import ChatRoom, Message
 
@@ -13,6 +13,26 @@ def _get_or_create_room(request, visitor_name='Guest', visitor_email=''):
     if not request.session.session_key:
         request.session.create()
     session_key = request.session.session_key
+
+    if visitor_name and visitor_name != 'Guest':
+        # Retrieve the most recent active room for this user
+        existing_room = ChatRoom.objects.filter(visitor_name=visitor_name, is_active=True).order_by('-last_message_at').first()
+        if existing_room:
+            # If they have a new session key, associate it to their old room
+            if existing_room.session_key != session_key:
+                # Handle if a Guest room was already created for this session
+                existing_session_room = ChatRoom.objects.filter(session_key=session_key).exclude(id=existing_room.id).first()
+                if existing_session_room:
+                    # Move any new messages to the existing room and delete the temporary session room
+                    existing_session_room.messages.update(room=existing_room)
+                    existing_session_room.delete()
+                
+                existing_room.session_key = session_key
+                if visitor_email:
+                    existing_room.visitor_email = visitor_email
+                existing_room.save(update_fields=['session_key', 'visitor_email'])
+            return existing_room
+
     room, created = ChatRoom.objects.get_or_create(
         session_key=session_key,
         defaults={
@@ -101,7 +121,7 @@ def poll_messages(request):
 @staff_member_required
 def admin_chat_list(request):
     """Admin: list all active conversations."""
-    rooms = ChatRoom.objects.all()
+    rooms = ChatRoom.objects.filter(is_active=True)
     for room in rooms:
         room.unread = room.unread_admin_count()
     return render(request, 'chat/admin_list.html', {'rooms': rooms})
@@ -161,3 +181,13 @@ def admin_poll(request, room_id):
     for m in data:
         m['timestamp'] = m['timestamp'].strftime('%H:%M')
     return JsonResponse({'messages': data})
+
+
+@staff_member_required
+@require_http_methods(["POST"])
+def admin_close_chat(request, room_id):
+    """Admin: close a chat."""
+    room = get_object_or_404(ChatRoom, id=room_id)
+    room.is_active = False
+    room.save(update_fields=['is_active'])
+    return redirect('admin_chat_list')
