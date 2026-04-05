@@ -108,23 +108,23 @@
                         <span class="text-xl">🥚</span>
                         <p class="font-bold text-sm">Eggs</p>
                     </a>
-                    <a href="{% url 'category_list' 'livestock' %}?breed=camborough-piglet"
-                        class="block px-6 py-3 hover:bg-slate-50 hover:text-gold transition-colors flex items-center gap-3">
+                    <a href="{% url 'category_list' 'livestock' %}?search=pig"
+                        class="block px-6 py-3 hover:bg-slate-50 hover:text-gold transition-colors flex items-center gap-3 {% if 'pig' in request.GET.search %}text-gold font-bold{% endif %}">
                         <span class="text-xl">🐷</span>
                         <p class="font-bold text-sm">Piglet / Guinea Pig</p>
                     </a>
-                    <a href="{% url 'category_list' 'livestock' %}?breed=holstein-calf"
-                        class="block px-6 py-3 hover:bg-slate-50 hover:text-gold transition-colors flex items-center gap-3">
+                    <a href="{% url 'category_list' 'livestock' %}?search=calf"
+                        class="block px-6 py-3 hover:bg-slate-50 hover:text-gold transition-colors flex items-center gap-3 {% if 'calf' in request.GET.search %}text-gold font-bold{% endif %}">
                         <span class="text-xl">🐄</span>
                         <p class="font-bold text-sm">Calves</p>
                     </a>
-                    <a href="{% url 'category_list' 'livestock' %}?breed=boar-goat"
-                        class="block px-6 py-3 hover:bg-slate-50 hover:text-gold transition-colors flex items-center gap-3">
+                    <a href="{% url 'category_list' 'livestock' %}?search=goat"
+                        class="block px-6 py-3 hover:bg-slate-50 hover:text-gold transition-colors flex items-center gap-3 {% if 'goat' in request.GET.search %}text-gold font-bold{% endif %}">
                         <span class="text-xl">🐐</span>
                         <p class="font-bold text-sm">Goats</p>
                     </a>
-                    <a href="{% url 'category_list' 'equipment' %}?breed=chicken-coop"
-                        class="block px-6 py-3 hover:bg-slate-50 hover:text-gold transition-colors flex items-center gap-3">
+                    <a href="{% url 'category_list' 'equipment' %}?search=coop"
+                        class="block px-6 py-3 hover:bg-slate-50 hover:text-gold transition-colors flex items-center gap-3 {% if 'coop' in request.GET.search %}text-gold font-bold{% endif %}">
                         <span class="text-xl">🏠</span>
                         <p class="font-bold text-sm">Chicken Coop</p>
                     </a>
@@ -220,20 +220,20 @@
                             class="flex items-center gap-3 px-4 py-4 rounded-xl transition-colors {% if request.path == '/fowls/eggs/' %}bg-accent/10 text-accent font-bold{% else %}hover:bg-slate-50 hover:text-gold{% endif %}">
                             <span class="text-xl">🥚</span> Eggs
                         </a>
-                        <a href="{% url 'category_list' 'livestock' %}?breed=camborough-piglet"
-                            class="flex items-center gap-3 px-4 py-4 rounded-xl transition-colors {% if 'camborough-piglet' in request.GET.breed %}bg-accent/10 text-accent font-bold{% else %}hover:bg-slate-50 hover:text-gold{% endif %}">
+                        <a href="{% url 'category_list' 'livestock' %}?search=pig"
+                            class="flex items-center gap-3 px-4 py-4 rounded-xl transition-colors {% if 'pig' in request.GET.search %}bg-accent/10 text-accent font-bold{% else %}hover:bg-slate-50 hover:text-gold{% endif %}">
                             <span class="text-xl">🐷</span> Piglet / Guinea Pig
                         </a>
-                        <a href="{% url 'category_list' 'livestock' %}?breed=holstein-calf"
-                            class="flex items-center gap-3 px-4 py-4 rounded-xl transition-colors {% if 'holstein-calf' in request.GET.breed %}bg-accent/10 text-accent font-bold{% else %}hover:bg-slate-50 hover:text-gold{% endif %}">
+                        <a href="{% url 'category_list' 'livestock' %}?search=calf"
+                            class="flex items-center gap-3 px-4 py-4 rounded-xl transition-colors {% if 'calf' in request.GET.search %}bg-accent/10 text-accent font-bold{% else %}hover:bg-slate-50 hover:text-gold{% endif %}">
                             <span class="text-xl">🐄</span> Calves
                         </a>
-                        <a href="{% url 'category_list' 'livestock' %}?breed=boar-goat"
-                            class="flex items-center gap-3 px-4 py-4 rounded-xl transition-colors {% if 'boar-goat' in request.GET.breed %}bg-accent/10 text-accent font-bold{% else %}hover:bg-slate-50 hover:text-gold{% endif %}">
+                        <a href="{% url 'category_list' 'livestock' %}?search=goat"
+                            class="flex items-center gap-3 px-4 py-4 rounded-xl transition-colors {% if 'goat' in request.GET.search %}bg-accent/10 text-accent font-bold{% else %}hover:bg-slate-50 hover:text-gold{% endif %}">
                             <span class="text-xl">🐐</span> Goats
                         </a>
-                        <a href="{% url 'category_list' 'equipment' %}?breed=chicken-coop"
-                            class="flex items-center gap-3 px-4 py-4 rounded-xl transition-colors {% if 'chicken-coop' in request.GET.breed %}bg-accent/10 text-accent font-bold{% else %}hover:bg-slate-50 hover:text-gold{% endif %}">
+                        <a href="{% url 'category_list' 'equipment' %}?search=coop"
+                            class="flex items-center gap-3 px-4 py-4 rounded-xl transition-colors {% if 'coop' in request.GET.search %}bg-accent/10 text-accent font-bold{% else %}hover:bg-slate-50 hover:text-gold{% endif %}">
                             <span class="text-xl">🏠</span> Chicken Coop
                         </a>
                     </div>
@@ -421,7 +421,7 @@
     <!-- ═══════════════════════════════════════════════════════════ -->
     <!-- FLOATING CHAT WIDGET                                       -->
     <!-- ═══════════════════════════════════════════════════════════ -->
-    <style>
+    {% comment %} <style>
         #chat-widget {
             font-family: 'Inter', sans-serif;
         }
@@ -438,6 +438,7 @@
             justify-content: center;
             transition: transform 0.2s, box-shadow 0.2s;
             position: relative;
+            pointer-events: auto;
         }
 
         #chat-bubble:hover {
@@ -645,7 +646,7 @@
     </style>
 
     <div id="chat-widget"
-        style="position:fixed;bottom:24px;right:24px;z-index:9999;display:flex;flex-direction:column;align-items:flex-end;gap:14px;">
+        style="position:fixed;bottom:24px;right:24px;z-index:9999;display:flex;flex-direction:column;align-items:flex-end;gap:14px;pointer-events:none;">
         <!-- Chat Panel -->
         <div id="chat-panel">
             <!-- Header -->
@@ -878,7 +879,9 @@
                 return cookieValue;
             }
         })();
-    </script>
+    </script> {% endcomment %}
+    <script src="//code.jivosite.com/widget/BMln3rlQEc" async></script>
+
 </body>
 
 </html>
