@@ -154,9 +154,10 @@
                 Live Inbox
             </a>
             {% endif %}
-            <a href="{% url 'fowl_list' %}"
-                class="hidden sm:block bg-accent hover:bg-accent/90 text-primary font-bold py-2 px-6 rounded-full transition-all hover:scale-105">
-                Order Now
+            <a href="{% url 'cart_view' %}"
+                class="hidden sm:flex items-center gap-2 bg-accent hover:bg-accent/90 text-white font-bold py-2 px-6 rounded-full transition-all hover:scale-105 shadow-md shadow-accent/20">
+                <span class="text-lg">🛒</span>
+                Cart (<span id="desktop-cart-count">{{ cart|length }}</span>)
             </a>
 
             <!-- Hamburger Menu Button -->
@@ -258,9 +259,10 @@
                     Live Chat Inbox
                 </a>
                 {% endif %}
-                <a href="{% url 'fowl_list' %}"
-                    class="block w-full text-center bg-accent text-white font-bold py-4 rounded-2xl text-lg shadow-xl shadow-accent/20">
-                    Order Now
+                <a href="{% url 'cart_view' %}"
+                    class="flex items-center justify-center gap-2 w-full text-center bg-accent text-white font-bold py-4 rounded-2xl text-lg shadow-xl shadow-accent/20">
+                    <span class="text-xl">🛒</span>
+                    View Cart (<span id="mobile-cart-count">{{ cart|length }}</span>)
                 </a>
             </div>
         </div>
@@ -313,7 +315,7 @@
                     Journey</h4>
                 <div class="flex gap-4">
                     <!-- Facebook -->
-                    <a href="#"
+                    <a href="https://www.facebook.com/share/1Ca8N5xXmu/?mibextid=wwXIfr"
                         class="w-10 h-10 bg-white/5 rounded-xl flex items-center justify-center hover:bg-gold transition-all group shadow-sm">
                         <svg class="w-5 h-5 fill-slate-400 group-hover:fill-white transition-colors"
                             viewBox="0 0 24 24">
@@ -880,7 +882,8 @@
             }
         })();
     </script> {% endcomment %}
-    <script src="//code.jivosite.com/widget/BMln3rlQEc" async></script>
+    <script src="//code.jivosite.com/widget/b6i1BaoBk3" async></script>
+
 
 </body>
 

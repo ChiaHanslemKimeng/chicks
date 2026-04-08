@@ -11,16 +11,21 @@ https://docs.djangoproject.com/en/6.0/ref/settings/
 """
 
 from pathlib import Path
+import os
+from dotenv import load_dotenv
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+# Load .env file
+load_dotenv(os.path.join(BASE_DIR, '.env'))
 
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-1kc7p-19+41hdogz704sr)o-^#%+7^%q^q8@exf)$criha4%$)'
+SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-fallback-key-change-this-in-env')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -66,6 +71,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'orders.context_processors.cart',
             ],
         },
     },
@@ -131,16 +137,16 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # Email Configuration
 # For development, check console. For production, use SMTP.
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend' 
-DEFAULT_FROM_EMAIL = 'info@poultryelite.com'
+DEFAULT_FROM_EMAIL = 'Universalpoultryf@gmail.com'
 
-# SMTP CONFIGURATION (Uncomment and fill for production)
+# Email backend configuration
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'hanslemkimeng5@gmail.com'
-EMAIL_HOST_PASSWORD = 'ltal ddbn eoil fgiu' # Use App Password for Gmail
-DEFAULT_FROM_EMAIL = 'Universal Poultry Farm <hanslemkimeng5@gmail.com>'
+EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER', 'Universalpoultryf@gmail.com')
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD', '') # <-- Set in .env
+DEFAULT_FROM_EMAIL = f'Universal Poultry Farm <{EMAIL_HOST_USER}>'
 
 # ─── Session Configuration ──────────────────────────────────────────────────
 # Keep sessions alive for 1 hour (3600 seconds) after the user leaves.

@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #334155;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #c29b40;
+            text-decoration: none;
+        }
+
+        .card {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 16px;
+            padding: 32px;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+        }
+
+        h1 {
+            font-size: 24px;
+            font-weight: bold;
+            color: #1e293b;
+            margin-top: 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 24px 0;
+        }
+
+        th {
+            text-align: left;
+            font-size: 12px;
+            text-transform: uppercase;
+            color: #64748b;
+            padding-bottom: 12px;
+            border-bottom: 1px solid #f1f5f9;
+        }
+
+        td {
+            padding: 12px 0;
+            border-bottom: 1px solid #f1f5f9;
+            font-size: 14px;
+        }
+
+        .total-row td {
+            border-bottom: none;
+            padding-top: 4px;
+            font-weight: bold;
+        }
+
+        .gold {
+            color: #c29b40;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            font-size: 12px;
+            color: #94a3b8;
+        }
+
+        .button {
+            display: inline-block;
+            background: #c29b40;
+            color: #ffffff;
+            padding: 12px 24px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">PoultryElite Farm</div>
+        </div>
+        <div class="card">
+            <h1>Order Confirmation</h1>
+            <p>Dear {{ customer_name }},</p>
+            <p>Thank you for choosing PoultryElite Farm. We have received your order and are preparing the next steps.
+            </p>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Product</th>
+                        <th>Qty</th>
+                        <th style="text-align: right;">Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in items %}
+                    <tr>
+                        <td>{{ item.product.name }}</td>
+                        <td>{{ item.quantity }}</td>
+                        <td style="text-align: right;">${{ item.total_price|floatformat:2 }}</td>
+                    </tr>
+                    {% endfor %}
+                    <tr class="total-row">
+                        <td colspan="2">Subtotal</td>
+                        <td style="text-align: right;">${{ subtotal|floatformat:2 }}</td>
+                    </tr>
+                    <tr class="total-row">
+                        <td colspan="2">Shipping Fee</td>
+                        <td style="text-align: right;">$30.00</td>
+                    </tr>
+                    <tr class="total-row">
+                        <td colspan="2" style="font-size: 18px;">Grand Total</td>
+                        <td style="text-align: right; font-size: 18px;" class="gold">${{ total_price|floatformat:2 }}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <p><strong>Payment Method:</strong> {{ payment_method }}</p>
+            <p>Our team will contact you shortly at <strong>{{ phone }}</strong> with specific payment instructions and
+                delivery scheduling.</p>
+
+            <div style="text-align: center;">
+                <a href="https://smc.pythonanywhere.com" class="button">Visit Our Website</a>
+            </div>
+        </div>
+        <div class="footer">
+            <p>&copy; 2026 PoultryElite Farm. Greenwood, Indiana.</p>
+            <p>
+                <a href="#" style="color: #94a3b8; margin: 0 10px;">Terms</a>
+                <a href="#" style="color: #94a3b8; margin: 0 10px;">Privacy</a>
+                <a href="#" style="color: #94a3b8; margin: 0 10px;">Support</a>
+            </p>
+        </div>
+    </div>
+</body>
+
+</html>

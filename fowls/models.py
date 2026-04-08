@@ -34,7 +34,7 @@ class Breed(models.Model):
 
 class Product(models.Model):
     category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='products', null=True, blank=True)
-    breed = models.ForeignKey(Breed, on_delete=models.CASCADE, related_name='products')
+    breed = models.ForeignKey(Breed, on_delete=models.CASCADE, related_name='products', null=True, blank=True)
     name = models.CharField(max_length=200)
     price = models.DecimalField(max_digits=10, decimal_places=2)
     age = models.CharField(max_length=50, blank=True)  # Still useful for livestock

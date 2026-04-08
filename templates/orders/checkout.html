@@ -28,15 +28,10 @@
                             </div>
                         </div>
 
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="grid grid-cols-1 gap-6">
                             <div>
                                 <label class="block text-sm font-medium text-slate-400 mb-2">Phone Number</label>
                                 <input type="tel" name="phone" required
-                                    class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-slate-800 focus:border-gold outline-none transition-colors">
-                            </div>
-                            <div>
-                                <label class="block text-sm font-medium text-slate-400 mb-2">Quantity</label>
-                                <input type="number" name="quantity" min="1" value="1" required
                                     class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-slate-800 focus:border-gold outline-none transition-colors">
                             </div>
                         </div>
@@ -52,9 +47,13 @@
                             <label class="block text-sm font-medium text-slate-400 mb-2">Payment Method</label>
                             <select name="payment_method" required
                                 class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-slate-800 focus:border-gold outline-none transition-colors">
-                                <option value="MTN">Mobile Money (MTN)</option>
-                                <option value="ORANGE">Mobile Money (Orange)</option>
-                                <option value="BANK">Bank Transfer</option>
+                                <option value="PAYPAL">PayPal</option>
+                                <option value="CHIME">Chime</option>
+                                <option value="ZELLE">Zelle</option>
+                                <option value="VENMO">Venmo</option>
+                                <option value="CASHAPP">Cash App</option>
+                                <option value="APPLE">Apple Card</option>
+                                <option value="CRYPTO">Cryptocurrency</option>
                             </select>
                             <p class="mt-2 text-xs text-slate-400">Payment details will be sent to your email after
                                 submission.</p>
@@ -73,36 +72,42 @@
                 <div class="bg-white p-8 rounded-3xl border border-slate-100 sticky top-24 shadow-xl">
                     <h3 class="text-xl font-bold text-slate-800 mb-6">Order Summary</h3>
 
-                    {% if selected_product %}
-                    <div class="flex items-center gap-4 mb-6">
-                        <div class="w-16 h-16 rounded-xl overflow-hidden bg-slate-50 shrink-0 border border-slate-100">
-                            {% if selected_product.thumbnail %}
-                            <img src="{{ selected_product.thumbnail.url }}" class="w-full h-full object-cover">
-                            {% else %}
-                            <div class="w-full h-full flex items-center justify-center text-2xl">📦</div>
-                            {% endif %}
+                    <div class="max-h-64 overflow-y-auto space-y-4 pr-2 mb-6">
+                        {% for item in cart %}
+                        <div class="flex items-center gap-4">
+                            <div
+                                class="w-16 h-16 rounded-xl overflow-hidden bg-slate-50 shrink-0 border border-slate-100">
+                                {% if item.product.thumbnail %}
+                                <img src="{{ item.product.thumbnail.url }}" class="w-full h-full object-cover">
+                                {% else %}
+                                <div class="w-full h-full flex items-center justify-center text-2xl">📦</div>
+                                {% endif %}
+                            </div>
+                            <div class="flex-grow">
+                                <h4 class="font-bold text-slate-800 text-xs line-clamp-1">{{ item.product.name }}</h4>
+                                <p class="text-slate-500 text-xs">Qty: {{ item.quantity }}</p>
+                            </div>
+                            <p class="text-gold font-bold text-sm shrink-0">${{ item.total_price|floatformat:2 }}</p>
                         </div>
-                        <div>
-                            <h4 class="font-bold text-slate-800 text-sm">{{ selected_product.name }}</h4>
-                            <p class="text-gold font-bold text-sm">${{ selected_product.price }}</p>
-                        </div>
+                        {% empty %}
+                        <p class="text-slate-400 text-sm">Cart is empty.</p>
+                        {% endfor %}
                     </div>
 
                     <div class="border-t border-slate-100 pt-6 space-y-4">
                         <div class="flex justify-between text-slate-500 text-sm">
-                            <span>Breed / Type</span>
-                            <span class="text-slate-800 font-medium">{{ selected_product.breed.name }}</span>
+                            <span>Subtotal</span>
+                            <span class="text-slate-800 font-medium">${{ cart.get_subtotal|floatformat:2 }}</span>
                         </div>
                         <div class="flex justify-between text-slate-500 text-sm">
-                            <span>Availability</span>
-                            <span class="text-accent font-medium">In Stock</span>
+                            <span>Shipping Fee</span>
+                            <span class="text-slate-800 font-medium">$30.00</span>
+                        </div>
+                        <div class="flex justify-between text-slate-800 text-base font-bold mt-2">
+                            <span>Total</span>
+                            <span class="text-gold">${{ cart.get_total_price|floatformat:2 }}</span>
                         </div>
                     </div>
-                    {% else %}
-                    <p class="text-slate-400 italic text-sm text-center">No item selected. Please go back to the
-                        listing.
-                    </p>
-                    {% endif %}
 
                     <div class="mt-12 p-4 bg-accent/5 rounded-xl border border-accent/10">
                         <p class="text-xs text-accent text-center font-medium">Safe & Secure Ordering</p>

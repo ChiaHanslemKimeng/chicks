@@ -65,7 +65,7 @@
             <!-- Product Info -->
             <div>
                 <div class="mb-8">
-                    <span class="text-accent font-bold uppercase tracking-[0.2em] text-sm block mb-2">{{ product.breed.name }}</span>
+                    <span class="text-accent font-bold uppercase tracking-[0.2em] text-sm block mb-2">{% if product.breed %}{{ product.breed.name }}{% endif %}</span>
                     <h1 class="text-4xl md:text-5xl font-bold text-slate-800 mb-4">{{ product.name }}</h1>
                     <p class="text-3xl font-bold text-gold">${{ product.price }}</p>
                 </div>
@@ -98,12 +98,22 @@
                     </div>
                 </div>
 
-                <!-- Order Action -->
+                <div
+                    class="mb-6 p-4 bg-accent/5 border border-accent/10 rounded-xl text-accent text-sm flex gap-3 items-start shadow-sm">
+                    <span class="text-xl leading-none">ℹ️</span>
+                    <p class="pt-0.5"><strong>Order Policy:</strong> All orders must have a subtotal of at least
+                        <strong>$100</strong> to proceed to checkout.
+                    </p>
+                </div>
                 {% if product.availability %}
-                <a href="{% url 'checkout' product.pk %}"
-                    class="inline-block w-full text-center bg-gold hover:bg-gold/90 text-white font-bold py-5 rounded-2xl text-xl transition-all hover:scale-[1.02] active:scale-[0.98] shadow-lg shadow-gold/20">
-                    Order Now
-                </a>
+                <form action="{% url 'cart_add' product.pk %}" method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" name="quantity" value="1">
+                    <button type="submit"
+                        class="w-full text-center bg-gold hover:bg-gold/90 text-white font-bold py-5 rounded-2xl text-xl transition-all hover:scale-[1.02] active:scale-[0.98] shadow-lg shadow-gold/20">
+                        Add to Cart 🛒
+                    </button>
+                </form>
                 {% else %}
                 <button disabled
                     class="w-full bg-slate-200 text-slate-400 font-bold py-5 rounded-2xl text-xl cursor-not-allowed border border-slate-100">
