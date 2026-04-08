@@ -19,17 +19,30 @@ def contact(request):
         subject_line = request.POST.get('subject')
         message = request.POST.get('message')
         
-        # Email Body
-        email_body = f"Message from {name} ({email}):\n\nSubject: {subject_line}\n\n{message}"
+        from django.core.mail import EmailMultiAlternatives
+        from django.template.loader import render_to_string
+        
+        context = {
+            'name': name,
+            'email': email,
+            'subject': subject_line,
+            'message': message,
+        }
         
         try:
-            send_mail(
+            html_content = render_to_string('core/emails/contact_email.html', context)
+            text_content = f"Message from {name} ({email}):\n\n{message}"
+            
+            msg = EmailMultiAlternatives(
                 f"Contact Form: {subject_line}",
-                email_body,
-                email, # From email (user's email)
-                [settings.DEFAULT_FROM_EMAIL], # To admin email
-                fail_silently=False,
+                text_content,
+                settings.DEFAULT_FROM_EMAIL,
+                [settings.DEFAULT_FROM_EMAIL]
             )
+            msg.attach_alternative(html_content, "text/html")
+            msg.reply_to = [email]
+            msg.send(fail_silently=False)
+            
             messages.success(request, "Thank you for your message! We'll get back to you shortly.")
         except Exception as e:
             messages.error(request, "Oops! There was an error sending your message. Please try again later.")

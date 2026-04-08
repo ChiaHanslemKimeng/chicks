@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #334155;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #c29b40;
+            text-decoration: none;
+        }
+
+        .card {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 16px;
+            padding: 32px;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+        }
+
+        .badge {
+            background: #fef3c7;
+            color: #92400e;
+            padding: 4px 12px;
+            border-radius: 9999px;
+            font-size: 12px;
+            font-weight: bold;
+            display: inline-block;
+            margin-bottom: 16px;
+        }
+
+        h1 {
+            font-size: 22px;
+            font-weight: bold;
+            color: #1e293b;
+            margin-top: 0;
+        }
+
+        .info-box {
+            background: #f8fafc;
+            padding: 16px;
+            border-radius: 12px;
+            margin-bottom: 24px;
+        }
+
+        .label {
+            font-size: 10px;
+            text-transform: uppercase;
+            color: #94a3b8;
+            font-weight: bold;
+            margin-bottom: 4px;
+            display: block;
+        }
+
+        .content {
+            font-size: 15px;
+            color: #475569;
+            white-space: pre-wrap;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            font-size: 12px;
+            color: #94a3b8;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">Universal Poultry Farm</div>
+        </div>
+        <div class="card">
+            <span class="badge">New Contact Message</span>
+            <h1>Inquiry: {{ subject }}</h1>
+
+            <div style="display: block; margin-bottom: 20px;">
+                <div class="info-box" style="margin-bottom: 10px;">
+                    <span class="label">From</span>
+                    <p style="margin: 0; font-weight: bold;">{{ name }} <span
+                            style="color: #64748b; font-weight: normal;">&lt;{{ email }}&gt;</span></p>
+                </div>
+            </div>
+
+            <div class="info-box">
+                <span class="label">Message</span>
+                <div class="content">{{ message }}</div>
+            </div>
+
+            <p style="font-size: 13px; color: #64748b; text-align: center;">Reply directly to this email to contact the
+                user.</p>
+        </div>
+        <div class="footer">
+            <p>&copy; 2026 Universal Poultry Farm. Greenwood, Indiana.</p>
+        </div>
+    </div>
+</body>
+
+</html>

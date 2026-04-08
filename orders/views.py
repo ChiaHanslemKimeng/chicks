@@ -121,7 +121,7 @@ def checkout(request, product_pk=None):
             from django.core.mail import EmailMultiAlternatives
             
             # 1. Send Confirmation to Customer
-            customer_subject = 'Order Confirmation - PoultryElite Farm'
+            customer_subject = 'Order Confirmation - Universal Poultry Farm'
             customer_html = render_to_string('orders/emails/customer_order.html', context)
             customer_text = f"Dear {customer_name}, thank you for your order. Total: ${cart.get_total_price():.2f}"
             

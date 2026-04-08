@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}Home - PoultryElite{% endblock %}
+{% block title %}Home - Universal Poultry Farm{% endblock %}
 
 {% block content %}
 <!-- Hero Swiper Section -->
@@ -128,7 +128,8 @@
                 </div>
             </div>
             <div class="p-8">
-                <span class="text-accent text-xs font-bold uppercase tracking-[0.2em] mb-2 block">{{ product.breed.name }}</span>
+                <span class="text-accent text-xs font-bold uppercase tracking-[0.2em] mb-2 block">{{ product.breed.name
+                    }}</span>
                 <h3 class="text-2xl font-bold text-slate-800 mb-3">{{ product.name }}</h3>
                 <p class="text-slate-500 text-sm line-clamp-2 mb-6 font-light leading-relaxed">{{ product.description }}
                 </p>
