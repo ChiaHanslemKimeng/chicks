@@ -25,16 +25,20 @@ Follow these steps to host your **Universal Poultry Farm** website on Namecheap 
 7.  Click **"CREATE"**.
 
 ## 4. Configure Passenger WSGI
-Namecheap uses the Phusion Passenger server. You need to create or edit `passenger_wsgi.py` in your project root:
+Namecheap uses the Phusion Passenger server. Create a file named `passenger_wsgi.py` in your project root (inside `universalpoultryfarm.com`) and paste this **exact** code:
 
 ```python
 import os
 import sys
 
-# Path to your project
+# This tells Passenger where your project is
 sys.path.insert(0, os.getcwd())
 
-# Import your Django application
+# Set the Django settings module 
+# (Make sure this matches your project folder name)
+os.environ['DJANGO_SETTINGS_MODULE'] = 'poultry_farm.settings'
+
+# Import the application from your wsgi.py
 from poultry_farm.wsgi import application
 ```
 
